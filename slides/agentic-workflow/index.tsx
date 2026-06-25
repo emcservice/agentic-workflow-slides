@@ -3,6 +3,35 @@ import type { DesignSystem, Page, SlideMeta, SlideTransition } from '@open-slide
 import { Steps, Step } from '@open-slide/core';
 import coverBgImg from './assets/cover-bg.png';
 import thankYouImg from './assets/thank-you.png';
+import magicImg from './assets/magic-imagination.png';
+
+export const notes: (string | undefined)[] = [
+  undefined,
+  undefined,
+  undefined,
+  undefined,
+  undefined,
+  undefined,
+  undefined,
+  undefined,
+  undefined,
+  undefined,
+  undefined,
+  undefined,
+  undefined,
+  undefined,
+  undefined,
+  undefined,
+  undefined,
+  undefined,
+  undefined,
+  undefined,
+  undefined,
+  "「無法想像的事物，就無法實現」—— 你的想像力，才是真正的天花板。",
+  undefined,
+  undefined,
+];
+
 
 // ── Webfont ───────────────────────────────────────────────────────────────────
 if (typeof document !== 'undefined' && !document.getElementById('osd-inter-aw')) {
@@ -72,6 +101,8 @@ const styles = `
   }
   .aw-up { opacity: 0; animation: aw-up 0.7s cubic-bezier(0,0,0.2,1) forwards; }
   .aw-in { opacity: 0; animation: aw-in 0.9s ease forwards; }
+  /* Equal-size columns even though each card sits inside a <Step> wrapper div */
+  .aw-cols > * { flex: 1 1 0; min-width: 0; display: flex; }
 `;
 const Styles = () => <style>{styles}</style>;
 
@@ -112,11 +143,11 @@ const CornerBadge = ({ children, color }: { children: React.ReactNode; color?: s
 );
 
 // Card used on dark slides
-const Card = ({ accent, title, body, delay = 0 }: {
-  accent?: string; title: string; body: string; delay?: number;
+const Card = ({ accent, title, body, delay = 0, noAnim }: {
+  accent?: string; title: string; body: string; delay?: number; noAnim?: boolean;
 }) => (
-  <div className="aw-up" style={{
-    animationDelay: `${delay}s`,
+  <div className={noAnim ? undefined : 'aw-up'} style={{
+    animationDelay: noAnim ? undefined : `${delay}s`,
     flex: 1, background: p.surface,
     border: `1px solid ${p.border}`,
     borderRadius: 'var(--osd-radius)',
@@ -124,7 +155,7 @@ const Card = ({ accent, title, body, delay = 0 }: {
     display: 'flex', flexDirection: 'column', gap: 0,
   }}>
     <div style={{ width: 36, height: 3, borderRadius: 2, background: accent || p.accent, marginBottom: 20 }} />
-    <div style={{ fontSize: 38, fontWeight: 700, lineHeight: 1.25, color: p.text, marginBottom: 16 }}>{title}</div>
+    <div style={{ fontSize: '30px', fontWeight: 700, lineHeight: 1.25, color: p.text, marginBottom: 16 }}>{title}</div>
     <div style={{ fontSize: 30, lineHeight: 1.65, color: p.textSoft }}>{body}</div>
   </div>
 );
@@ -157,6 +188,7 @@ const BottomNote = ({ children }: { children: React.ReactNode }) => (
     border: `1px solid ${p.accent}30`,
     borderRadius: 'var(--osd-radius)',
     fontSize: 30, color: p.accentSoft, lineHeight: 1.5,
+    fontWeight: 700, fontStyle: 'italic',
   }}>{children}</div>
 );
 
@@ -219,24 +251,154 @@ const Cover: Page = () => (
 );
 
 // ────────────────────────────────────────────────────────────────────────────
+// SLIDE 1.5 — 科普時間：AI Agent vs. LLM
+// ────────────────────────────────────────────────────────────────────────────
+const IconCircle = ({ icon, color }: { icon: string; color: string }) => (
+  <div style={{
+    flexShrink: 0, width: 64, height: 64, borderRadius: '50%',
+    background: `${color}22`, border: `1px solid ${color}55`,
+    display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 34,
+  }}>{icon}</div>
+);
+
+const PhaseChip = ({ n, icon, label }: { n: string; icon: string; label: string }) => (
+  <div style={{
+    flex: 1, minWidth: 0, background: p.surfaceHi,
+    border: `1px solid ${p.borderHi}`, borderRadius: 'var(--osd-radius)',
+    padding: '18px 22px', display: 'flex', alignItems: 'center', gap: 16,
+  }}>
+    <IconCircle icon={icon} color={p.accent} />
+    <div style={{ minWidth: 0 }}>
+      <div style={{ fontSize: 18, fontWeight: 800, color: p.accentSoft, letterSpacing: '0.08em' }}>STEP {n}</div>
+      <div style={{ fontSize: 28, fontWeight: 700, color: p.text, lineHeight: 1.2 }}>{label}</div>
+    </div>
+  </div>
+);
+
+const SciencePop: Page = () => (
+  <div style={{ ...fill, display: 'flex', flexDirection: 'column', padding: '120px', gap: 0 }}>
+    <Styles />
+    <GridBg />
+    <div className="aw-up" style={{ marginBottom: 20 }}><EyebrowTag>科普時間</EyebrowTag></div>
+    <h2 className="aw-up" style={{
+      animationDelay: '0.08s',
+      fontSize: 72, fontWeight: 800, lineHeight: 1.15, letterSpacing: '-0.025em',
+      margin: '0 0 40px',
+    }}>先搞懂：AI Agent 跟 LLM 差在哪？</h2>
+    <div className="aw-cols" style={{ flex: 1, display: 'flex', gap: 32, minHeight: 0 }}>
+      <Steps>
+        {/* LEFT — LLM */}
+        <Step>
+          <div style={{
+            flex: 1, background: p.surface, border: `1px solid ${p.border}`,
+            borderRadius: 'var(--osd-radius)', padding: '40px 44px',
+            display: 'flex', flexDirection: 'column', gap: 24,
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 18 }}>
+              <IconCircle icon="🧠" color={p.muted} />
+              <div>
+                <div style={{ fontSize: 42, fontWeight: 800, color: p.text, lineHeight: 1.1 }}>LLM</div>
+                <div style={{ fontSize: 24, color: p.muted, fontWeight: 600 }}>大型語言模型</div>
+              </div>
+            </div>
+            <div style={{ fontSize: 30, lineHeight: 1.6, color: p.textSoft }}>一顆很強的大腦，外掛一座知識庫。</div>
+            <div style={{
+              background: p.surfaceHi, border: `1px solid ${p.border}`,
+              borderRadius: 'var(--osd-radius)', padding: '22px 26px',
+              fontSize: 28, lineHeight: 1.5, color: p.text,
+            }}>
+              <span style={{ fontWeight: 800 }}>被動回答問題</span>
+              <br />你問它才答、答完就停，不會自己去查、去動手。
+            </div>
+            <div style={{ flex: 1 }} />
+            <div style={{
+              alignSelf: 'flex-start', background: `${p.muted}22`, border: `1px solid ${p.muted}55`,
+              borderRadius: 999, padding: '10px 24px', fontSize: 24, fontWeight: 700, color: p.textSoft,
+            }}>只用大腦 → 被動知識</div>
+          </div>
+        </Step>
+        {/* RIGHT — AI Agent */}
+        <Step>
+          <div style={{
+            flex: 1, background: p.surface, border: `1px solid ${p.accent}40`,
+            borderRadius: 'var(--osd-radius)', padding: '40px 44px',
+            display: 'flex', flexDirection: 'column', gap: 22,
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 18 }}>
+              <IconCircle icon="🤖" color={p.accent} />
+              <div>
+                <div style={{ fontSize: 42, fontWeight: 800, color: p.text, lineHeight: 1.1 }}>AI Agent</div>
+                <div style={{ fontSize: 24, color: p.accentSoft, fontWeight: 600 }}>代理人、智能體</div>
+              </div>
+            </div>
+            <div style={{ fontSize: 30, lineHeight: 1.6, color: p.textSoft }}>大腦＋五官四肢，會自己感知、決策、動手。</div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+              <div style={{ display: 'flex', gap: 14 }}>
+                <PhaseChip n="1" icon="🔍" label="感知環境" />
+                <PhaseChip n="2" icon="🧭" label="制定策略" />
+              </div>
+              <div style={{ display: 'flex', gap: 14 }}>
+                <PhaseChip n="3" icon="🦾" label="執行任務" />
+                <PhaseChip n="4" icon="🔄" label="持續迭代" />
+              </div>
+            </div>
+            <div style={{
+              alignSelf: 'flex-start', background: `${p.accent}1c`, border: `1px solid ${p.accent}55`,
+              borderRadius: 999, padding: '10px 24px', fontSize: 24, fontWeight: 700, color: p.accentSoft,
+            }}>主動行動 & 學習 → 不斷循環</div>
+          </div>
+        </Step>
+      </Steps>
+    </div>
+    <Steps>
+      <Step>
+        <div style={{ marginTop: 28, display: 'flex', alignItems: 'stretch', borderRadius: 'var(--osd-radius)', overflow: 'hidden', border: `1px solid ${p.border}` }}>
+          <div style={{ flex: 1, padding: '20px 40px', background: `${p.muted}18`, fontSize: 28, fontWeight: 700, color: p.textSoft, textAlign: 'right' }}>LLM：被動知識</div>
+          <div style={{ flexShrink: 0, width: 76, background: p.text, color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24, fontWeight: 800, letterSpacing: '0.04em' }}>VS</div>
+          <div style={{ flex: 1, padding: '20px 40px', background: `${p.accent}1c`, fontSize: 28, fontWeight: 700, color: p.accent, textAlign: 'left' }}>AI Agent：主動行動與互動</div>
+        </div>
+      </Step>
+    </Steps>
+  </div>
+);
+
+// ────────────────────────────────────────────────────────────────────────────
 // SLIDE 2 — 痛點開場
 // Budget: 1080 - 120×2 = 840px
 // Eyebrow 27px + gap 20 = 47; Title 74px + gap 48 = 122; Cards ~580px; Bottom 91px → 840✓
 // ────────────────────────────────────────────────────────────────────────────
+// Fixed canvas: content width = 1920 - 2×120 = 1680; 3 cards + 2×28 gaps → 541px each.
+const PAIN_CARD_W = 541;
+const PainCard = ({ accent, q, d }: { accent: string; q: string; d: string }) => (
+  <div style={{
+    width: PAIN_CARD_W,
+    background: p.surface, border: `1px solid ${p.border}`, borderRadius: 'var(--osd-radius)',
+    padding: '26px 32px', display: 'flex', flexDirection: 'column',
+  }}>
+    <div style={{ width: 36, height: 3, borderRadius: 2, background: accent, marginBottom: 16 }} />
+    <div style={{ fontSize: 30, fontWeight: 700, lineHeight: 1.3, color: p.text, marginBottom: 12 }}>{q}</div>
+    <div style={{ fontSize: 22, lineHeight: 1.6, color: p.textSoft }}>{d}</div>
+  </div>
+);
+
 const PainPoints: Page = () => (
   <div style={{ ...fill, display: 'flex', flexDirection: 'column', padding: '120px', gap: 0 }}>
     <Styles />
     <GridBg />
-    <div className="aw-up" style={{ marginBottom: 20 }}><EyebrowTag>為什麼要聊這個</EyebrowTag></div>
+    <div className="aw-up" style={{ marginBottom: 20 }}><EyebrowTag>你是不是也覺得</EyebrowTag></div>
     <h2 className="aw-up" style={{
       animationDelay: '0.08s',
       fontSize: 72, fontWeight: 800, lineHeight: 1.15, letterSpacing: '-0.025em',
       margin: '0 0 48px',
-    }}>你是不是也覺得，AI 根本不知道我要做什麼？</h2>
-    <div style={{ flex: 1, display: 'flex', gap: 32, minHeight: 0 }}>
-      <Card delay={0.18} title="「每次產出不靠譜，還要改很多次」" body="花了時間下 prompt，結果還是對不上需求，整個從頭來過。" />
-      <Card delay={0.26} accent={p.amber} title="「講半天，它還是抓錯重點」" body="交代了五分鐘背景，最後給的東西跟想要的差十萬八千里。" />
-      <Card delay={0.34} accent={p.rose} title="「改了 A，B 就亂掉了」" body="牽一髮動全身，根本不敢讓它繼續跑下去。" />
+    }}>AI 根本不知道我要做什麼？</h2>
+    <div style={{ flex: 1, minHeight: 0, display: 'flex', flexWrap: 'wrap', gap: 28, alignContent: 'center', justifyContent: 'center' }}>
+      <Steps>
+        <Step><PainCard accent={p.accent} q="「每次產出不一致，要改很多次」" d="花了時間下 prompt，結果還是對不上需求，整個從頭來過。" /></Step>
+        <Step><PainCard accent={p.amber} q="「講半天，它還是抓錯重點」" d="交代了五分鐘背景，最後給的東西跟想要的差十萬八千里。" /></Step>
+        <Step><PainCard accent={p.rose} q="「改了 A，B 就亂掉了」" d="牽一髮動全身，根本不敢讓它繼續跑下去。" /></Step>
+        <Step><PainCard accent={p.mint} q="「每次關掉對話框後就失憶」" d="一開新對話，前面的脈絡全部歸零，又要從頭重講。" /></Step>
+        <Step><PainCard accent={p.accentSoft} q="「AI 幻覺：編造事實與文獻」" d="用非常有自信的語氣，生成完全不正確、虛構或誇大的內容。" /></Step>
+      </Steps>
     </div>
     <Steps>
       <Step>
@@ -256,47 +418,55 @@ const CleaningMetaphor: Page = () => (
   <div style={{ ...fill, display: 'flex', flexDirection: 'column', padding: '120px', gap: 0 }}>
     <Styles />
     <GridBg />
-    <div className="aw-up" style={{ marginBottom: 20 }}><EyebrowTag>生活化的例子</EyebrowTag></div>
+    <div className="aw-up" style={{ marginBottom: 20 }}><EyebrowTag>舉個例子</EyebrowTag></div>
     <h2 className="aw-up" style={{
       animationDelay: '0.08s',
       fontSize: 72, fontWeight: 800, lineHeight: 1.15, letterSpacing: '-0.025em',
       margin: '0 0 48px',
     }}>你請了幫手打掃，只說「把家裡打掃乾淨」</h2>
-    <div style={{ flex: 1, display: 'flex', gap: 32, minHeight: 0 }}>
-      <div className="aw-up" style={{
-        animationDelay: '0.18s',
-        flex: 1, background: p.surface,
-        border: `1px solid ${p.mint}40`,
-        borderRadius: 'var(--osd-radius)', padding: '44px 48px',
-        display: 'flex', flexDirection: 'column', gap: 24,
-      }}>
-        <div style={{ width: 36, height: 3, borderRadius: 2, background: p.mint }} />
-        <div style={{ fontSize: '65px', fontWeight: 700 }}>你心中的「乾淨」</div>
-        <div style={{ fontSize: 32, lineHeight: 1.7, color: p.textSoft }}>
-          地板不黏腳、桌面清爽
-          <br />水槽沒有碗、垃圾都倒掉
-          <br />連看不到的角落都要弄
-        </div>
-      </div>
-      <div className="aw-up" style={{
-        animationDelay: '0.28s',
-        flex: 1, background: p.surface,
-        border: `1px solid ${p.rose}40`,
-        borderRadius: 'var(--osd-radius)', padding: '44px 48px',
-        display: 'flex', flexDirection: 'column', gap: 24,
-      }}>
-        <div style={{ width: 36, height: 3, borderRadius: 2, background: p.rose }} />
-        <div style={{ fontSize: '65px', fontWeight: 700 }}>幫手心中的「乾淨」</div>
-        <div style={{ fontSize: 32, lineHeight: 1.7, color: p.textSoft }}>
-          東西有歸位就好
-          <br />看得順眼就算過關
-          <br />角落、櫃子後面不用動
-        </div>
-      </div>
+    <div className="aw-cols" style={{ flex: 1, display: 'flex', gap: 32, minHeight: 0 }}>
+      <Steps>
+        <Step>
+          <div style={{
+            flex: 1, background: p.surface,
+            border: `1px solid ${p.mint}40`,
+            borderRadius: 'var(--osd-radius)', padding: '44px 48px',
+            display: 'flex', flexDirection: 'column', gap: 24,
+          }}>
+            <div style={{ width: 36, height: 3, borderRadius: 2, background: p.mint }} />
+            <div style={{ fontSize: '50px', fontWeight: 700 }}>你心中的「乾淨」</div>
+            <div style={{ fontSize: 32, lineHeight: 1.7, color: p.textSoft }}>
+              地板不黏腳、桌面清爽
+              <br />水槽沒有碗、垃圾都倒掉
+              <br />連看不到的角落都要弄
+            </div>
+          </div>
+        </Step>
+        <Step>
+          <div style={{
+            flex: 1, background: p.surface,
+            border: `1px solid ${p.rose}40`,
+            borderRadius: 'var(--osd-radius)', padding: '44px 48px',
+            display: 'flex', flexDirection: 'column', gap: 24,
+          }}>
+            <div style={{ width: 36, height: 3, borderRadius: 2, background: p.rose }} />
+            <div style={{ fontSize: '50px', fontWeight: 700 }}>幫手心中的「乾淨」</div>
+            <div style={{ fontSize: 32, lineHeight: 1.7, color: p.textSoft }}>
+              東西有歸位就好
+              <br />看得順眼就算過關
+              <br />角落、櫃子後面不用動
+            </div>
+          </div>
+        </Step>
+      </Steps>
     </div>
-    <div style={{ marginTop: 32 }}>
-      <BottomNote style={{ fontWeight: '700' }}>Agent 沒有讀心術，你不講清楚，它再聰明也無法完成任務</BottomNote>
-    </div>
+    <Steps>
+      <Step>
+        <div style={{ marginTop: 32 }}>
+          <BottomNote>Agent 沒有讀心術，你不講清楚，它再聰明也無法完成任務</BottomNote>
+        </div>
+      </Step>
+    </Steps>
   </div>
 );
 
@@ -308,7 +478,7 @@ const MegaAgent: Page = () => (
   <div style={{ ...fill, display: 'flex', flexDirection: 'column', padding: '120px', gap: 0 }}>
     <Styles />
     <GridBg />
-    <div className="aw-up" style={{ marginBottom: 20 }}><EyebrowTag>最常見的錯</EyebrowTag></div>
+    <div className="aw-up" style={{ marginBottom: 20 }}><EyebrowTag>最常見的錯誤</EyebrowTag></div>
     <h2 className="aw-up" style={{
       animationDelay: '0.08s',
       fontSize: 72, fontWeight: 800, lineHeight: 1.15, letterSpacing: '-0.025em',
@@ -317,19 +487,23 @@ const MegaAgent: Page = () => (
 
     <div style={{ flex: 1, display: 'flex', gap: 48, minHeight: 0, alignItems: 'stretch' }}>
       {/* Left — black box */}
-      <div className="aw-up" style={{ animationDelay: '0.18s', flexShrink: 0, width: 440, background: '#050508', border: `1px solid ${p.border}`, borderRadius: 'var(--osd-radius)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 24, padding: '40px', backgroundColor: '#dbdbf5' }}>
-        <div style={{ fontSize: 28, color: '#9988bb', textAlign: 'center' as const }}>INPUT</div>
-        <div style={{
-          background: '#1a1230', border: '1px solid rgba(255,255,255,0.10)',
-          borderRadius: 10, padding: '20px 28px',
-          fontSize: 30, color: '#ddd0f0', textAlign: 'center' as const, lineHeight: 1.5,
-        }}>「幫我把整個提案<br />優化一下」</div>
-        <div style={{ fontSize: 48, color: '#4a3880' }}>⋯</div>
-        <div style={{ fontSize: 28, color: '#9988bb', textAlign: 'center' as const }}>OUTPUT</div>
-        <div style={{
-          fontSize: 24, color: '#6654a0', textAlign: 'center' as const, fontStyle: 'italic',
-        }}>中間發生什麼，看不見</div>
-      </div>
+      <Steps>
+        <Step>
+          <div style={{ flexShrink: 0, width: 440, background: '#dbdbf5', border: `1px solid ${p.border}`, borderRadius: 'var(--osd-radius)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 24, padding: '40px' }}>
+            <div style={{ fontSize: 28, color: '#9988bb', textAlign: 'center' as const }}>INPUT</div>
+            <div style={{
+              background: '#1a1230', border: '1px solid rgba(255,255,255,0.10)',
+              borderRadius: 10, padding: '20px 28px',
+              fontSize: 30, color: '#ddd0f0', textAlign: 'center' as const, lineHeight: 1.5,
+            }}>「幫我寫/優化提案」</div>
+            <div style={{ fontSize: 48, color: '#4a3880' }}>⋯</div>
+            <div style={{ fontSize: 28, color: '#9988bb', textAlign: 'center' as const }}>OUTPUT</div>
+            <div style={{
+              fontSize: 24, color: '#6654a0', textAlign: 'center' as const, fontStyle: 'italic',
+            }}>中間發生什麼，看不見</div>
+          </div>
+        </Step>
+      </Steps>
 
       {/* Right — checklist */}
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 16 }}>
@@ -367,36 +541,38 @@ const Decompose: Page = () => (
       margin: '0 0 48px',
     }}>分而治之：拆成一串小任務</h2>
 
-    <div className="aw-up" style={{
-      animationDelay: '0.2s',
-      display: 'flex', alignItems: 'center', gap: 0, marginBottom: 40,
-    }}>
-      <FlowBox label="一大包模糊任務" color={p.rose} delay={0.2} />
-      <Arrow />
-      <FlowBox label="分類" color={p.amber} delay={0.28} />
-      <Arrow />
-      <FlowBox label="查資料" color={p.accentSoft} delay={0.36} />
-      <Arrow />
-      <FlowBox label="執行" color={p.accent} delay={0.44} />
-      <Arrow />
-      <FlowBox label="QC" color={p.mint} delay={0.52} />
-    </div>
-
-    <div className="aw-up" style={{
-      animationDelay: '0.38s',
-      flex: 1, background: p.surface,
-      border: `1px solid ${p.border}`,
-      borderRadius: 'var(--osd-radius)',
-      padding: '40px 48px',
-      fontSize: 34, lineHeight: 1.7, color: p.textSoft,
-      marginBottom: 32,
-    }}>
-      每個小任務都有明確的<span style={{ color: p.accentSoft }}> 輸入 / 輸出 / 成功標準</span>。
-      <br />上一個節點的輸出就是下一個的輸入<br />{''}
-      出錯了回去看 log，哪裡壞改哪裡，對症下藥——不用整個重寫。
-    </div>
-
-    <BottomNote>你不是在訓練一個超人 AI，而是在設計一條生產線。</BottomNote>
+    <Steps>
+      <Step>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 0, marginBottom: 40 }}>
+          <FlowBox label="一大包模糊任務" color={p.rose} />
+          <Arrow />
+          <FlowBox label="分類" color={p.amber} />
+          <Arrow />
+          <FlowBox label="查資料" color={p.accentSoft} />
+          <Arrow />
+          <FlowBox label="執行" color={p.accent} />
+          <Arrow />
+          <FlowBox label="QC" color={p.mint} />
+        </div>
+      </Step>
+      <Step>
+        <div style={{
+          background: p.surface,
+          border: `1px solid ${p.border}`,
+          borderRadius: 'var(--osd-radius)',
+          padding: '40px 48px',
+          fontSize: 34, lineHeight: 1.7, color: p.textSoft,
+          marginBottom: 32,
+        }}>
+          每個小任務都有明確的<span style={{ color: p.accentSoft }}> 輸入 / 輸出 / 成功標準</span>。
+          <br />上一個節點的輸出就是下一個的輸入<br />{''}
+          出錯了回去看 log，哪裡壞改哪裡，對症下藥——不用整個重寫。
+        </div>
+      </Step>
+      <Step>
+        <BottomNote>你不是在訓練一個超人 AI，而是在設計一條生產線。</BottomNote>
+      </Step>
+    </Steps>
   </div>
 );
 
@@ -423,61 +599,61 @@ const Part1Chapter: Page = () => (
       margin: '0 0 52px',
     }}>先認識三個名詞</h2>
 
-    <div style={{ flex: 1, display: 'flex', gap: 28, minHeight: 0 }}>
-      <div className="aw-up" style={{
-        animationDelay: '0.2s',
-        flex: 1, background: p.surface,
-        border: `1px solid ${p.border}`,
-        borderRadius: 'var(--osd-radius)', padding: '40px 40px',
-        display: 'flex', flexDirection: 'column', gap: 20,
-      }}>
-        <div style={{
-          width: 52, height: 52, borderRadius: '50%',
-          background: `${p.mint}22`, border: `1px solid ${p.mint}55`,
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontSize: 26, fontWeight: 800, color: p.mint,
-        }}>1</div>
-        <div style={{ fontSize: '50px', fontWeight: 700 }}>Human SOP</div>
-        <div style={{ fontSize: 30, color: p.textSoft, lineHeight: 1.55 }}>寫給「人」看的流程</div>
-      </div>
-      <div className="aw-up" style={{
-        animationDelay: '0.28s',
-        flex: 1, background: p.surface,
-        border: `1px solid ${p.border}`,
-        borderRadius: 'var(--osd-radius)', padding: '40px 40px',
-        display: 'flex', flexDirection: 'column', gap: 20,
-      }}>
-        <div style={{
-          width: 52, height: 52, borderRadius: '50%',
-          background: `${p.accentSoft}22`, border: `1px solid ${p.accentSoft}55`,
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontSize: 26, fontWeight: 800, color: p.accentSoft,
-        }}>2</div>
-        <div style={{ fontSize: '50px', fontWeight: 700 }}>Skill</div>
-        <div style={{ fontSize: 30, color: p.textSoft, lineHeight: 1.55 }}>打包給 AI 的單一任務</div>
-      </div>
-      <div className="aw-up" style={{
-        animationDelay: '0.36s',
-        flex: 1, background: p.surface,
-        border: `1px solid ${p.border}`,
-        borderRadius: 'var(--osd-radius)', padding: '40px 40px',
-        display: 'flex', flexDirection: 'column', gap: 20,
-      }}>
-        <div style={{
-          width: 52, height: 52, borderRadius: '50%',
-          background: `${p.amber}22`, border: `1px solid ${p.amber}55`,
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontSize: 26, fontWeight: 800, color: p.amber,
-        }}>3</div>
-        <div style={{ fontSize: '49px', fontWeight: 700 }}>Agentic Workflow</div>
-        <div style={{ fontSize: 30, color: p.textSoft, lineHeight: 1.55 }}>串起來的 AI 生產線</div>
-      </div>
+    <div className="aw-cols" style={{ flex: 1, display: 'flex', gap: 28, minHeight: 0 }}>
+      <Steps>
+        <Step>
+          <div style={{
+            flex: 1, background: p.surface,
+            border: `1px solid ${p.border}`,
+            borderRadius: 'var(--osd-radius)', padding: '40px 40px',
+            display: 'flex', flexDirection: 'column', gap: 20,
+          }}>
+            <div style={{
+              width: 52, height: 52, borderRadius: '50%',
+              background: `${p.mint}22`, border: `1px solid ${p.mint}55`,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontSize: 26, fontWeight: 800, color: p.mint,
+            }}>1</div>
+            <div style={{ fontSize: '50px', fontWeight: 700 }}>Human SOP</div>
+            <div style={{ fontSize: 30, color: p.textSoft, lineHeight: 1.55 }}>寫給「人」看的流程</div>
+          </div>
+        </Step>
+        <Step>
+          <div style={{
+            flex: 1, background: p.surface,
+            border: `1px solid ${p.border}`,
+            borderRadius: 'var(--osd-radius)', padding: '40px 40px',
+            display: 'flex', flexDirection: 'column', gap: 20,
+          }}>
+            <div style={{
+              width: 52, height: 52, borderRadius: '50%',
+              background: `${p.accentSoft}22`, border: `1px solid ${p.accentSoft}55`,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontSize: 26, fontWeight: 800, color: p.accentSoft,
+            }}>2</div>
+            <div style={{ fontSize: '50px', fontWeight: 700 }}>Skill</div>
+            <div style={{ fontSize: 30, color: p.textSoft, lineHeight: 1.55 }}>打包給 AI 的單一任務</div>
+          </div>
+        </Step>
+        <Step>
+          <div style={{
+            flex: 1, background: p.surface,
+            border: `1px solid ${p.border}`,
+            borderRadius: 'var(--osd-radius)', padding: '40px 40px',
+            display: 'flex', flexDirection: 'column', gap: 20,
+          }}>
+            <div style={{
+              width: 52, height: 52, borderRadius: '50%',
+              background: `${p.amber}22`, border: `1px solid ${p.amber}55`,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontSize: 26, fontWeight: 800, color: p.amber,
+            }}>3</div>
+            <div style={{ fontSize: '49px', fontWeight: 700 }}>Agentic Workflow</div>
+            <div style={{ fontSize: 30, color: p.textSoft, lineHeight: 1.55 }}>串起來的 AI 生產線</div>
+          </div>
+        </Step>
+      </Steps>
     </div>
-
-    <div className="aw-in" style={{
-      animationDelay: '0.5s',
-      marginTop: 32, fontSize: 26, color: p.muted,
-    }}>{''}</div>
   </div>
 );
 
@@ -500,7 +676,7 @@ const HumanSOP: Page = () => (
       <Steps>
         <Step><BulletRow n={1} body="就是傳統的流程文件（Word、簡報）：第一步、第二步、例外怎麼處理。" /></Step>
         <Step><BulletRow n={2} body="人看得懂，是因為腦中會自動補上背景判斷。" delay={0.1} /></Step>
-        <Step><BulletRow n={3} body="例：SOP 寫「申請完送主管簽核」。人會自己判斷——200 元小金額直接跑完；超過 5,000 元先知會主管。" delay={0.2} /></Step>
+        <Step><BulletRow n={3} body="例：SOP 寫「請款後送主管簽核」。人會自己判斷——200 元小金額直接跑完；超過 5,000 元先知會主管。" delay={0.2} /></Step>
       </Steps>
     </div>
     <Steps>
@@ -603,47 +779,51 @@ const ComparisonTable: Page = () => {
         margin: '0 0 36px',
       }}>三者一次看懂</h2>
 
-      <div className="aw-up" style={{
-        animationDelay: '0.18s',
-        flex: 1,
-        border: `1px solid ${p.border}`,
-        borderRadius: 'var(--osd-radius)',
-        overflow: 'hidden',
-        display: 'flex', flexDirection: 'column',
-      }}>
-        {/* Header */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.4fr 1fr 1fr', borderBottom: `1px solid ${p.border}` }}>
-          <div style={headerStyle}>名詞</div>
-          <div style={headerStyle}>一句話</div>
-          <div style={headerStyle}>給誰用</div>
-          <div style={headerStyle}>範圍</div>
-        </div>
-        {/* Row 1 */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.4fr 1fr 1fr', flex: 1, borderBottom: `1px solid ${p.border}` }}>
-          <div style={{ ...cellStyle, ...rowEven, fontWeight: 700, color: p.mint }}>Human SOP</div>
-          <div style={{ ...cellStyle, ...rowEven }}>傳統流程文件</div>
-          <div style={{ ...cellStyle, ...rowEven }}>給「人」看</div>
-          <div style={{ ...cellStyle, ...rowEven }}>一個流程</div>
-        </div>
-        {/* Row 2 */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.4fr 1fr 1fr', flex: 1, borderBottom: `1px solid ${p.border}` }}>
-          <div style={{ ...cellStyle, ...rowOdd, fontWeight: 700, color: p.accentSoft }}>Skill</div>
-          <div style={{ ...cellStyle, ...rowOdd }}>打包好的做事方法</div>
-          <div style={{ ...cellStyle, ...rowOdd }}>給 AI 執行</div>
-          <div style={{ ...cellStyle, ...rowOdd }}>單一任務</div>
-        </div>
-        {/* Row 3 */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.4fr 1fr 1fr', flex: 1 }}>
-          <div style={{ ...cellStyle, ...rowEven, fontWeight: 700, color: p.amber }}>Agentic Workflow</div>
-          <div style={{ ...cellStyle, ...rowEven }}>串起來的生產線</div>
-          <div style={{ ...cellStyle, ...rowEven }}>整套系統</div>
-          <div style={{ ...cellStyle, ...rowEven }}>一整條流程</div>
-        </div>
-      </div>
-
-      <div style={{ marginTop: 32 }}>
-        <BottomNote>這場分享的重點：把「Human SOP」轉成「Agentic Workflow」。</BottomNote>
-      </div>
+      <Steps>
+        <Step>
+          <div style={{
+            flex: 1,
+            border: `1px solid ${p.border}`,
+            borderRadius: 'var(--osd-radius)',
+            overflow: 'hidden',
+            display: 'flex', flexDirection: 'column',
+          }}>
+            {/* Header */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.4fr 1fr 1fr', borderBottom: `1px solid ${p.border}` }}>
+              <div style={headerStyle}>名詞</div>
+              <div style={headerStyle}>一句話</div>
+              <div style={headerStyle}>給誰用</div>
+              <div style={headerStyle}>範圍</div>
+            </div>
+            {/* Row 1 */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.4fr 1fr 1fr', flex: 1, borderBottom: `1px solid ${p.border}` }}>
+              <div style={{ ...cellStyle, ...rowEven, fontWeight: 700, color: p.mint }}>Human SOP</div>
+              <div style={{ ...cellStyle, ...rowEven }}>傳統流程文件</div>
+              <div style={{ ...cellStyle, ...rowEven }}>給「人」看</div>
+              <div style={{ ...cellStyle, ...rowEven }}>一個流程</div>
+            </div>
+            {/* Row 2 */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.4fr 1fr 1fr', flex: 1, borderBottom: `1px solid ${p.border}` }}>
+              <div style={{ ...cellStyle, ...rowOdd, fontWeight: 700, color: p.accentSoft }}>Skill</div>
+              <div style={{ ...cellStyle, ...rowOdd }}>打包好的做事方法</div>
+              <div style={{ ...cellStyle, ...rowOdd }}>給 AI 執行</div>
+              <div style={{ ...cellStyle, ...rowOdd }}>單一任務</div>
+            </div>
+            {/* Row 3 */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.4fr 1fr 1fr', flex: 1 }}>
+              <div style={{ ...cellStyle, ...rowEven, fontWeight: 700, color: p.amber }}>Agentic Workflow</div>
+              <div style={{ ...cellStyle, ...rowEven }}>串起來的生產線</div>
+              <div style={{ ...cellStyle, ...rowEven }}>整套系統</div>
+              <div style={{ ...cellStyle, ...rowEven }}>一整條流程</div>
+            </div>
+          </div>
+        </Step>
+        <Step>
+          <div style={{ marginTop: 32 }}>
+            <BottomNote>重點：先做多個skills 都沒有問題後，再串成 workflow</BottomNote>
+          </div>
+        </Step>
+      </Steps>
     </div>
   );
 };
@@ -671,56 +851,57 @@ const Part2Chapter: Page = () => (
       margin: '0 0 52px',
     }}>四步驟：把你的 SOP 變成 AI 工作流</h2>
 
-    <div style={{ flex: 1, display: 'flex', gap: 24, minHeight: 0, alignItems: 'center' }}>
-      <div className="aw-up" style={{
-        animationDelay: '0.2s', flex: 1,
-        background: `${p.mint}18`, border: `1px solid ${p.mint}55`,
-        borderRadius: 'var(--osd-radius)', padding: '36px 32px',
-        display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16,
-        textAlign: 'center' as const,
-      }}>
-        <div style={{ fontSize: 48, fontWeight: 900, color: p.mint }}>01</div>
-        <div style={{ fontSize: 34, fontWeight: 700 }}>格式標準化</div>
-      </div>
-      <div style={{ color: p.dim, fontSize: 32, flexShrink: 0 }}>→</div>
-      <div className="aw-up" style={{
-        animationDelay: '0.28s', flex: 1,
-        background: `${p.accentSoft}18`, border: `1px solid ${p.accentSoft}55`,
-        borderRadius: 'var(--osd-radius)', padding: '36px 32px',
-        display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16,
-        textAlign: 'center' as const,
-      }}>
-        <div style={{ fontSize: 48, fontWeight: 900, color: p.accentSoft }}>02</div>
-        <div style={{ fontSize: 34, fontWeight: 700 }}>任務拆解與連結</div>
-      </div>
-      <div style={{ color: p.dim, fontSize: 32, flexShrink: 0 }}>→</div>
-      <div className="aw-up" style={{
-        animationDelay: '0.36s', flex: 1,
-        background: `${p.amber}18`, border: `1px solid ${p.amber}55`,
-        borderRadius: 'var(--osd-radius)', padding: '36px 32px',
-        display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16,
-        textAlign: 'center' as const,
-      }}>
-        <div style={{ fontSize: 48, fontWeight: 900, color: p.amber }}>03</div>
-        <div style={{ fontSize: 34, fontWeight: 700 }}>雙向開發</div>
-      </div>
-      <div style={{ color: p.dim, fontSize: 32, flexShrink: 0 }}>→</div>
-      <div className="aw-up" style={{
-        animationDelay: '0.44s', flex: 1,
-        background: `${p.rose}18`, border: `1px solid ${p.rose}55`,
-        borderRadius: 'var(--osd-radius)', padding: '36px 32px',
-        display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16,
-        textAlign: 'center' as const,
-      }}>
-        <div style={{ fontSize: 48, fontWeight: 900, color: p.rose }}>04</div>
-        <div style={{ fontSize: 34, fontWeight: 700 }}>整合與執行環境</div>
-      </div>
+    <div style={{ flex: 1, display: 'grid', gridTemplateColumns: '1fr auto 1fr auto 1fr auto 1fr', gap: 24, minHeight: 0, alignItems: 'center' }}>
+      <Steps>
+        <Step>
+          <div style={{
+            background: `${p.mint}18`, border: `1px solid ${p.mint}55`,
+            borderRadius: 'var(--osd-radius)', padding: '36px 32px',
+            display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16,
+            textAlign: 'center' as const,
+          }}>
+            <div style={{ fontSize: 48, fontWeight: 900, color: p.mint }}>01</div>
+            <div style={{ fontSize: 34, fontWeight: 700 }}>格式標準化</div>
+          </div>
+        </Step>
+        <div style={{ color: p.dim, fontSize: 32, flexShrink: 0 }}>→</div>
+        <Step>
+          <div style={{
+            background: `${p.accentSoft}18`, border: `1px solid ${p.accentSoft}55`,
+            borderRadius: 'var(--osd-radius)', padding: '36px 32px',
+            display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16,
+            textAlign: 'center' as const,
+          }}>
+            <div style={{ fontSize: 48, fontWeight: 900, color: p.accentSoft }}>02</div>
+            <div style={{ fontSize: 34, fontWeight: 700 }}>任務拆解與連結</div>
+          </div>
+        </Step>
+        <div style={{ color: p.dim, fontSize: 32, flexShrink: 0 }}>→</div>
+        <Step>
+          <div style={{
+            background: `${p.amber}18`, border: `1px solid ${p.amber}55`,
+            borderRadius: 'var(--osd-radius)', padding: '36px 32px',
+            display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16,
+            textAlign: 'center' as const,
+          }}>
+            <div style={{ fontSize: 48, fontWeight: 900, color: p.amber }}>03</div>
+            <div style={{ fontSize: 34, fontWeight: 700 }}>雙向開發</div>
+          </div>
+        </Step>
+        <div style={{ color: p.dim, fontSize: 32, flexShrink: 0 }}>→</div>
+        <Step>
+          <div style={{
+            background: `${p.rose}18`, border: `1px solid ${p.rose}55`,
+            borderRadius: 'var(--osd-radius)', padding: '36px 32px',
+            display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16,
+            textAlign: 'center' as const,
+          }}>
+            <div style={{ fontSize: 48, fontWeight: 900, color: p.rose }}>04</div>
+            <div style={{ fontSize: 34, fontWeight: 700 }}>整合資料與執行</div>
+          </div>
+        </Step>
+      </Steps>
     </div>
-
-    <div className="aw-in" style={{
-      animationDelay: '0.56s',
-      marginTop: 32, fontSize: 26, color: p.muted,
-    }}>{''}</div>
   </div>
 );
 
@@ -751,7 +932,7 @@ const Step1: Page = () => (
           <div style={{ flex: 1, background: p.surface, border: `1px solid ${p.border}`, borderRadius: 'var(--osd-radius)', padding: '36px 40px', display: 'flex', flexDirection: 'column', gap: 16 }}>
             <div style={{ width: 32, height: 3, borderRadius: 2, background: p.mint }} />
             <div style={{ fontSize: 36, fontWeight: 700 }}>參數化</div>
-            <div style={{ fontSize: 28, lineHeight: 1.65, color: p.textSoft }}>別把規則寫死。用 mode、temperature 這種參數，讓一份 SOP 變成可重複使用的模板。</div>
+            <div style={{ fontSize: 28, lineHeight: 1.65, color: p.textSoft }}>別把規則寫死。用參數讓一份 SOP 變成可重複使用的模板。</div>
           </div>
         </Step>
         <Step>
@@ -770,9 +951,9 @@ const Step1: Page = () => (
         </Step>
       </Steps>
     </div>
-    <div style={{ marginTop: 28 }}>
-      <BottomNote>目標：讓 AI 能像人一樣讀懂規則，而不是靠猜。</BottomNote>
-    </div>
+    <Steps>
+      <Step><div style={{ marginTop: 28 }}><BottomNote>目標：讓 AI 能像人一樣讀懂規則，而不是靠猜。</BottomNote></div></Step>
+    </Steps>
   </div>
 );
 
@@ -821,9 +1002,9 @@ const Step2: Page = () => (
         </Step>
       </Steps>
     </div>
-    <div style={{ marginTop: 28 }}>
-      <BottomNote>靠的不是 AI 之間的心電感應，而是清楚定義的 input、output 格式。</BottomNote>
-    </div>
+    <Steps>
+      <Step><div style={{ marginTop: 28 }}><BottomNote>靠的不是 AI 之間的心電感應，而是清楚定義的 input、output 格式。</BottomNote></div></Step>
+    </Steps>
   </div>
 );
 
@@ -878,9 +1059,9 @@ const Step3: Page = () => (
         </Step>
       </Steps>
     </div>
-    <div style={{ marginTop: 28 }}>
-      <BottomNote>速度的關鍵，不是寫得多完美，而是迭代得多快。</BottomNote>
-    </div>
+    <Steps>
+      <Step><div style={{ marginTop: 28 }}><BottomNote>速度的關鍵，不是寫得多完美，而是迭代得多快。</BottomNote></div></Step>
+    </Steps>
   </div>
 );
 
@@ -897,13 +1078,13 @@ const Step4: Page = () => (
         borderRadius: 999, padding: '10px 28px',
         fontSize: 24, fontWeight: 700, letterSpacing: '0.1em', color: p.rose,
       }}>STEP 04</div>
-      <EyebrowTag color={p.rose}>整合與執行環境</EyebrowTag>
+      <EyebrowTag color={p.rose}>整合資料與執行</EyebrowTag>
     </div>
     <h2 className="aw-up" style={{
       animationDelay: '0.08s',
       fontSize: 68, fontWeight: 800, lineHeight: 1.15, letterSpacing: '-0.025em',
       margin: '0 0 36px',
-    }}>漂亮的 SOP 沒接上真實工具，就是一份不會動的文件</h2>
+    }}>漂亮的 SOP 接不到真實資料，就只是一份不會動的文件</h2>
     <div style={{ flex: 1, display: 'flex', gap: 28, minHeight: 0 }}>
       <Steps>
         <Step>
@@ -929,9 +1110,9 @@ const Step4: Page = () => (
         </Step>
       </Steps>
     </div>
-    <div style={{ marginTop: 28 }}>
-      <BottomNote>這就是「人類掌舵，AI 執行」——你還是最後拍板的人。</BottomNote>
-    </div>
+    <Steps>
+      <Step><div style={{ marginTop: 28 }}><BottomNote>這就是「人類掌舵，AI 執行」——你還是最後拍板的人。</BottomNote></div></Step>
+    </Steps>
   </div>
 );
 
@@ -943,59 +1124,68 @@ const MyWorkflows: Page = () => (
   <div style={{ ...fill, display: 'flex', flexDirection: 'column', padding: '120px', gap: 0 }}>
     <Styles />
     <GridBg />
-    <div className="aw-up" style={{ marginBottom: 20 }}><EyebrowTag>Agent 幫我做的事</EyebrowTag></div>
+    <div className="aw-up" style={{ marginBottom: 20 }}><EyebrowTag>Agent First</EyebrowTag></div>
     <h2 className="aw-up" style={{
       animationDelay: '0.08s',
       fontSize: 72, fontWeight: 800, lineHeight: 1.15, letterSpacing: '-0.025em',
       margin: '0 0 12px',
-    }}>我的自動化工作流</h2>
+    }}>讓 Agent 先學會幫你做重複性高的事</h2>
     <p className="aw-up" style={{
       animationDelay: '0.12s',
       fontSize: 30, color: p.muted, margin: '0 0 28px',
-    }}>讓Agent 先學會幫你做重複性高的事</p>
+    }}>他會自己判別要用哪一個工作流</p>
 
     <div style={{ flex: 1, display: 'grid', gridTemplateColumns: '1fr 1fr', gridTemplateRows: '1fr 1fr', gap: 24, minHeight: 0 }}>
-      <div className="aw-up" style={{
-        animationDelay: '0.2s',
-        background: p.surface, border: `1px solid ${p.mint}40`,
-        borderRadius: 'var(--osd-radius)', padding: '32px 40px',
-        display: 'flex', flexDirection: 'column', gap: 12,
-      }}>
-        <div style={{ fontSize: 28, fontWeight: 700, color: p.mint }}>課前通知</div>
-        <div style={{ fontSize: 26, color: p.textSoft, lineHeight: 1.55 }}>抓下一個開課場次 → 撈學員名單 → 組信件內容 → 寄 Gmail → TG 通知我</div>
-      </div>
-      <div className="aw-up" style={{
-        animationDelay: '0.28s',
-        background: p.surface, border: `1px solid ${p.accentSoft}40`,
-        borderRadius: 'var(--osd-radius)', padding: '32px 40px',
-        display: 'flex', flexDirection: 'column', gap: 12,
-      }}>
-        <div style={{ fontSize: 28, fontWeight: 700, color: p.accentSoft }}>每月自動結帳並通知財務</div>
-        <div style={{ fontSize: 26, color: '#3d2b5c', fontStyle: 'italic' }}>撈取當月訂單→ 計算服務費→ 匯出報表 → 寄 Gmail → TG 通知我</div>
-      </div>
-      <div className="aw-up" style={{
-        animationDelay: '0.36s',
-        background: p.surface, border: `1px solid ${p.amber}40`,
-        borderRadius: 'var(--osd-radius)', padding: '32px 40px',
-        display: 'flex', flexDirection: 'column', gap: 12,
-      }}>
-        <div style={{ fontSize: 28, fontWeight: 700, color: p.amber }}>發課程證明</div>
-        <div style={{ fontSize: 26, color: '#3d2b5c', fontStyle: 'italic' }}>學員作答完畢→ 判斷分數是否通過→<br />是→ 產生證書→ 寄 Gmail → TG 通知我<br />否→ 查詢剩餘場次→ 寄 Gmail → TG 通知我</div>
-      </div>
-      <div className="aw-up" style={{
-        animationDelay: '0.44s',
-        background: p.surface, border: `1px solid ${p.rose}40`,
-        borderRadius: 'var(--osd-radius)', padding: '32px 40px',
-        display: 'flex', flexDirection: 'column', gap: 12,
-      }}>
-        <div style={{ fontSize: 28, fontWeight: 700, color: p.rose }}>自動寫客服草稿</div>
-        <div style={{ fontSize: 26, color: '#3d2b5c', fontStyle: 'italic' }}>搜尋客服信件→ 判斷問題→ 到資料庫找尋答案 → 幫我寫Gmail回覆草稿 → 我檢查後自己按寄送</div>
-      </div>
+      <Steps>
+        <Step>
+          <div style={{
+            background: p.surface, border: `1px solid ${p.mint}40`,
+            borderRadius: 'var(--osd-radius)', padding: '32px 40px',
+            display: 'flex', flexDirection: 'column', gap: 12, height: '100%', boxSizing: 'border-box' as const,
+          }}>
+            <div style={{ fontSize: 28, fontWeight: 700, color: p.mint }}>課前通知</div>
+            <div style={{ fontSize: 26, color: p.textSoft, lineHeight: 1.55 }}>抓下一個開課場次 → 撈學員名單 → 組信件內容 → 寄 Gmail → TG 通知我</div>
+          </div>
+        </Step>
+        <Step>
+          <div style={{
+            background: p.surface, border: `1px solid ${p.accentSoft}40`,
+            borderRadius: 'var(--osd-radius)', padding: '32px 40px',
+            display: 'flex', flexDirection: 'column', gap: 12, height: '100%', boxSizing: 'border-box' as const,
+          }}>
+            <div style={{ fontSize: 28, fontWeight: 700, color: p.accentSoft }}>每月自動結帳並通知財務</div>
+            <div style={{ fontSize: 26, color: p.textSoft, lineHeight: 1.55 }}>撈取當月訂單→ 計算服務費→ 匯出報表 → 寄 Gmail → TG 通知我</div>
+          </div>
+        </Step>
+        <Step>
+          <div style={{
+            background: p.surface, border: `1px solid ${p.amber}40`,
+            borderRadius: 'var(--osd-radius)', padding: '32px 40px',
+            display: 'flex', flexDirection: 'column', gap: 12, height: '100%', boxSizing: 'border-box' as const,
+          }}>
+            <div style={{ fontSize: 28, fontWeight: 700, color: p.amber }}>發課程證明</div>
+            <div style={{ fontSize: 26, color: p.textSoft, lineHeight: 1.55 }}>學員作答完畢→ 判斷分數是否通過→<br />是→ 產生證書→ 寄 Gmail → TG 通知我<br />否→ 查詢剩餘場次→ 寄 Gmail → TG 通知我</div>
+          </div>
+        </Step>
+        <Step>
+          <div style={{
+            background: p.surface, border: `1px solid ${p.rose}40`,
+            borderRadius: 'var(--osd-radius)', padding: '32px 40px',
+            display: 'flex', flexDirection: 'column', gap: 12, height: '100%', boxSizing: 'border-box' as const,
+          }}>
+            <div style={{ fontSize: 28, fontWeight: 700, color: p.rose }}>自動寫客服草稿</div>
+            <div style={{ fontSize: 26, color: p.textSoft, lineHeight: 1.55 }}>搜尋客服信件→ 判斷問題→ 到資料庫找尋答案 → 幫我寫 Gmail 回覆草稿 → 我檢查後自己按寄送</div>
+          </div>
+        </Step>
+      </Steps>
     </div>
-
-    <div style={{ marginTop: 28 }}>
-      <BottomNote>自動化的前提：準備好對應的資料表，越詳細越好</BottomNote>
-    </div>
+    <Steps>
+      <Step>
+        <div style={{ marginTop: 28 }}>
+          <BottomNote>自動化的前提：準備好對應的資料表，越詳細越好</BottomNote>
+        </div>
+      </Step>
+    </Steps>
   </div>
 );
 
@@ -1027,16 +1217,18 @@ const CaseStudyChapter: Page = () => (
     }}>每個案子跑完，你都要做這些：</p>
 
     <div style={{ display: 'flex', gap: 24 }}>
-      <div className="aw-up" style={{ animationDelay: '0.24s', flex: 1, background: `${p.mint}18`, border: `1px solid ${p.mint}40`, borderRadius: 'var(--osd-radius)', padding: '24px 28px', fontSize: 30, fontWeight: 700, color: p.mint, textAlign: 'center' as const }}>撈整期數據</div>
-      <div className="aw-up" style={{ animationDelay: '0.30s', flex: 1, background: `${p.accentSoft}18`, border: `1px solid ${p.accentSoft}40`, borderRadius: 'var(--osd-radius)', padding: '24px 28px', fontSize: 30, fontWeight: 700, color: p.accentSoft, textAlign: 'center' as const }}>算 KPI 達成率</div>
-      <div className="aw-up" style={{ animationDelay: '0.36s', flex: 1, background: `${p.amber}18`, border: `1px solid ${p.amber}40`, borderRadius: 'var(--osd-radius)', padding: '24px 28px', fontSize: 30, fontWeight: 700, color: p.amber, textAlign: 'center' as const }}>寫亮點與檢討</div>
-      <div className="aw-up" style={{ animationDelay: '0.42s', flex: 1, background: `${p.rose}18`, border: `1px solid ${p.rose}40`, borderRadius: 'var(--osd-radius)', padding: '24px 28px', fontSize: 30, fontWeight: 700, color: p.rose, textAlign: 'center' as const }}>套客戶簡報模板</div>
+      <Steps>
+        <Step><div style={{ flex: 1, background: `${p.mint}18`, border: `1px solid ${p.mint}40`, borderRadius: 'var(--osd-radius)', padding: '24px 28px', fontSize: 30, fontWeight: 700, color: p.mint, textAlign: 'center' as const }}>撈整期數據</div></Step>
+        <Step><div style={{ flex: 1, background: `${p.accentSoft}18`, border: `1px solid ${p.accentSoft}40`, borderRadius: 'var(--osd-radius)', padding: '24px 28px', fontSize: 30, fontWeight: 700, color: p.accentSoft, textAlign: 'center' as const }}>算 KPI 達成率</div></Step>
+        <Step><div style={{ flex: 1, background: `${p.amber}18`, border: `1px solid ${p.amber}40`, borderRadius: 'var(--osd-radius)', padding: '24px 28px', fontSize: 30, fontWeight: 700, color: p.amber, textAlign: 'center' as const }}>寫亮點與檢討</div></Step>
+        <Step><div style={{ flex: 1, background: `${p.rose}18`, border: `1px solid ${p.rose}40`, borderRadius: 'var(--osd-radius)', padding: '24px 28px', fontSize: 30, fontWeight: 700, color: p.rose, textAlign: 'center' as const }}>套客戶簡報模板</div></Step>
+      </Steps>
     </div>
-
-    <div className="aw-in" style={{
-      animationDelay: '0.56s',
-      marginTop: 40, fontSize: 26, color: p.muted,
-    }}>不複雜，但很煩、很重複，而且每個案子都要做一次 → 最適合交給 AI。</div>
+    <Steps>
+      <Step>
+        <div style={{ marginTop: 40, fontSize: 26, color: p.muted }}>不複雜，但很煩、很重複，而且每個案子都要做一次 → 最適合交給 AI。</div>
+      </Step>
+    </Steps>
   </div>
 );
 
@@ -1056,47 +1248,56 @@ const CaseStudyFourSteps: Page = () => (
     }}>結案報告：四步走一遍</h2>
 
     <div style={{ flex: 1, display: 'grid', gridTemplateColumns: '1fr 1fr', gridTemplateRows: '1fr 1fr', gap: 24, minHeight: 0 }}>
-      <div className="aw-up" style={{
-        animationDelay: '0.16s',
-        background: p.surface, border: `1px solid ${p.mint}40`,
-        borderRadius: 'var(--osd-radius)', padding: '32px 40px',
-        display: 'flex', flexDirection: 'column', gap: 14,
-      }}>
-        <div style={{ fontSize: 22, fontWeight: 700, color: p.mint, letterSpacing: '0.08em' }}>01 標準化</div>
-        <div style={{ fontSize: 27, lineHeight: 1.6, color: p.textSoft }}>寫一份 SOP。MUST 撈齊全期數據、算達成率；SHOULD 標出亮點；MUST 套模板。</div>
-      </div>
-      <div className="aw-up" style={{
-        animationDelay: '0.24s',
-        background: p.surface, border: `1px solid ${p.accentSoft}40`,
-        borderRadius: 'var(--osd-radius)', padding: '32px 40px',
-        display: 'flex', flexDirection: 'column', gap: 14,
-      }}>
-        <div style={{ fontSize: 22, fontWeight: 700, color: p.accentSoft, letterSpacing: '0.08em' }}>02 拆解</div>
-        <div style={{ fontSize: 27, lineHeight: 1.6, color: p.textSoft }}>拆成兩個 skill：① 數據彙整（撈數據→算 KPI→輸出 JSON）② 報告草稿（吃 JSON→寫初稿）。靠 JSON 串接。</div>
-      </div>
-      <div className="aw-up" style={{
-        animationDelay: '0.32s',
-        background: p.surface, border: `1px solid ${p.amber}40`,
-        borderRadius: 'var(--osd-radius)', padding: '32px 40px',
-        display: 'flex', flexDirection: 'column', gap: 14,
-      }}>
-        <div style={{ fontSize: 22, fontWeight: 700, color: p.amber, letterSpacing: '0.08em' }}>03 雙向開發</div>
-        <div style={{ fontSize: 27, lineHeight: 1.6, color: p.textSoft }}>跑第一版發現它把「曝光」當「觸及」。回頭補規則、再跑，三五輪就穩。</div>
-      </div>
-      <div className="aw-up" style={{
-        animationDelay: '0.40s',
-        background: p.surface, border: `1px solid ${p.rose}40`,
-        borderRadius: 'var(--osd-radius)', padding: '32px 40px',
-        display: 'flex', flexDirection: 'column', gap: 14,
-      }}>
-        <div style={{ fontSize: 22, fontWeight: 700, color: p.rose, letterSpacing: '0.08em' }}>04 整合</div>
-        <div style={{ fontSize: 27, lineHeight: 1.6, color: p.textSoft }}>接數據源自動產初稿；故事線設成 human-in-the-loop，由你潤飾、拍板。</div>
-      </div>
+      <Steps>
+        <Step>
+          <div style={{
+            background: p.surface, border: `1px solid ${p.mint}40`,
+            borderRadius: 'var(--osd-radius)', padding: '32px 40px',
+            display: 'flex', flexDirection: 'column', gap: 14, height: '100%', boxSizing: 'border-box' as const,
+          }}>
+            <div style={{ fontSize: 22, fontWeight: 700, color: p.mint, letterSpacing: '0.08em' }}>01 標準化</div>
+            <div style={{ fontSize: 27, lineHeight: 1.6, color: p.textSoft }}>寫一份 SOP。MUST 撈齊全期數據、算達成率；SHOULD 標出亮點；MUST 套模板。</div>
+          </div>
+        </Step>
+        <Step>
+          <div style={{
+            background: p.surface, border: `1px solid ${p.accentSoft}40`,
+            borderRadius: 'var(--osd-radius)', padding: '32px 40px',
+            display: 'flex', flexDirection: 'column', gap: 14, height: '100%', boxSizing: 'border-box' as const,
+          }}>
+            <div style={{ fontSize: 22, fontWeight: 700, color: p.accentSoft, letterSpacing: '0.08em' }}>02 拆解</div>
+            <div style={{ fontSize: 27, lineHeight: 1.6, color: p.textSoft }}>拆成兩個 skill：① 數據彙整（撈數據→算 KPI→輸出 JSON）② 報告草稿（吃 JSON→寫初稿）。靠 JSON 串接。</div>
+          </div>
+        </Step>
+        <Step>
+          <div style={{
+            background: p.surface, border: `1px solid ${p.amber}40`,
+            borderRadius: 'var(--osd-radius)', padding: '32px 40px',
+            display: 'flex', flexDirection: 'column', gap: 14, height: '100%', boxSizing: 'border-box' as const,
+          }}>
+            <div style={{ fontSize: 22, fontWeight: 700, color: p.amber, letterSpacing: '0.08em' }}>03 雙向開發</div>
+            <div style={{ fontSize: 27, lineHeight: 1.6, color: p.textSoft }}>跑第一版發現它把「曝光」當「觸及」。回頭補規則、再跑，三五輪就穩。</div>
+          </div>
+        </Step>
+        <Step>
+          <div style={{
+            background: p.surface, border: `1px solid ${p.rose}40`,
+            borderRadius: 'var(--osd-radius)', padding: '32px 40px',
+            display: 'flex', flexDirection: 'column', gap: 14, height: '100%', boxSizing: 'border-box' as const,
+          }}>
+            <div style={{ fontSize: 22, fontWeight: 700, color: p.rose, letterSpacing: '0.08em' }}>04 整合</div>
+            <div style={{ fontSize: 27, lineHeight: 1.6, color: p.textSoft }}>接數據源自動產初稿；故事線設成 human-in-the-loop，由你潤飾、拍板。</div>
+          </div>
+        </Step>
+      </Steps>
     </div>
-
-    <div style={{ marginTop: 28 }}>
-      <BottomNote>每一步都有明確 input/output，出問題可以定位到具體哪一段。</BottomNote>
-    </div>
+    <Steps>
+      <Step>
+        <div style={{ marginTop: 28 }}>
+          <BottomNote>每一步都有明確 input/output，出問題可以定位到具體哪一段。</BottomNote>
+        </div>
+      </Step>
+    </Steps>
   </div>
 );
 
@@ -1115,56 +1316,122 @@ const CaseStudyFlow: Page = () => (
       margin: '0 0 40px',
     }}>串起來長這樣</h2>
 
-    <div className="aw-up" style={{
-      animationDelay: '0.18s',
-      display: 'flex', alignItems: 'center', gap: 0, marginBottom: 32,
-    }}>
-      <FlowBox label="撈數據" color={p.mint} delay={0.18} />
-      <Arrow />
-      <FlowBox label="算 KPI" color={p.accentSoft} delay={0.24} />
-      <Arrow />
-      <FlowBox label="寫初稿" color={p.accent} delay={0.30} />
-      <Arrow />
-      <FlowBox label="套模板" color={p.amber} delay={0.36} />
-      <Arrow />
-      <div className="aw-up" style={{
-        animationDelay: '0.42s',
-        flex: 1, background: `${p.rose}18`,
-        border: `2px solid ${p.rose}80`,
-        borderRadius: 'var(--osd-radius)',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        padding: '28px 16px',
-        fontSize: 30, fontWeight: 800, color: p.rose, textAlign: 'center' as const,
-      }}>你潤飾<br />拍板 ✓</div>
-    </div>
+    <Steps>
+      <Step>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 0, marginBottom: 32 }}>
+          <FlowBox label="撈數據" color={p.mint} />
+          <Arrow />
+          <FlowBox label="算 KPI" color={p.accentSoft} />
+          <Arrow />
+          <FlowBox label="寫初稿" color={p.accent} />
+          <Arrow />
+          <FlowBox label="套模板" color={p.amber} />
+          <Arrow />
+          <div style={{
+            flex: 1, background: `${p.rose}18`,
+            border: `2px solid ${p.rose}80`,
+            borderRadius: 'var(--osd-radius)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            padding: '28px 16px',
+            fontSize: 30, fontWeight: 800, color: p.rose, textAlign: 'center' as const,
+          }}>你潤飾<br />拍板 ✓</div>
+        </div>
+      </Step>
+      <Step>
+        <div style={{ flex: 1, display: 'flex', gap: 32, minHeight: 0, marginBottom: 0 }}>
+          <div style={{
+            flex: 1, background: p.surface,
+            border: `1px solid ${p.mint}40`,
+            borderRadius: 'var(--osd-radius)', padding: '36px 44px',
+            display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 16,
+          }}>
+            <div style={{ fontSize: 30, color: p.muted }}>原本大半天</div>
+            <div style={{ fontSize: 72, fontWeight: 900, color: p.mint, lineHeight: 1 }}>30 分鐘</div>
+            <div style={{ fontSize: 28, color: p.textSoft }}>AI 跑完初稿，你只要潤飾。</div>
+          </div>
+          <div style={{
+            flex: 1, background: p.surface,
+            border: `1px solid ${p.accentSoft}40`,
+            borderRadius: 'var(--osd-radius)', padding: '36px 44px',
+            display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 16,
+          }}>
+            <div style={{ fontSize: 30, color: p.muted }}>出錯也好修</div>
+            <div style={{ fontSize: 34, fontWeight: 700, color: p.accentSoft, lineHeight: 1.3 }}>定位到哪一段<br />壞了</div>
+            <div style={{ fontSize: 28, color: p.textSoft }}>不用整份重來。</div>
+          </div>
+        </div>
+      </Step>
+      <Step>
+        <div style={{ marginTop: 28 }}>
+          <BottomNote>分工明確，每個節點各司其職，也各自可以優化。</BottomNote>
+        </div>
+      </Step>
+    </Steps>
+  </div>
+);
 
-    <div style={{ flex: 1, display: 'flex', gap: 32, minHeight: 0 }}>
-      <div className="aw-up" style={{
-        animationDelay: '0.5s',
-        flex: 1, background: p.surface,
-        border: `1px solid ${p.mint}40`,
-        borderRadius: 'var(--osd-radius)', padding: '36px 44px',
-        display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 16,
+// ────────────────────────────────────────────────────────────────────────────
+// SLIDE 20.5 — 金句：AI 就像魔法
+// ────────────────────────────────────────────────────────────────────────────
+const grad = {
+  background: `linear-gradient(90deg, ${p.accent}, ${p.accentSoft})`,
+  WebkitBackgroundClip: 'text' as const, backgroundClip: 'text' as const, color: 'transparent',
+};
+
+const MagicQuote: Page = () => (
+  <div style={{ ...fill, display: 'flex', alignItems: 'center', padding: '120px', gap: 88 }}>
+    <Styles />
+    <GridBg />
+    <div className="aw-up" style={{ flexShrink: 0 }}>
+      <div style={{
+        width: 600, height: 600, borderRadius: 'var(--osd-radius)', overflow: 'hidden',
+        border: `1px solid ${p.borderHi}`, boxShadow: '0 24px 60px rgba(90,50,180,0.18)',
+        background: p.surface,
       }}>
-        <div style={{ fontSize: 30, color: p.muted }}>原本大半天</div>
-        <div style={{ fontSize: 72, fontWeight: 900, color: p.mint, lineHeight: 1 }}>30 分鐘</div>
-        <div style={{ fontSize: 28, color: p.textSoft }}>AI 跑完初稿，你只要潤飾。</div>
-      </div>
-      <div className="aw-up" style={{
-        animationDelay: '0.58s',
-        flex: 1, background: p.surface,
-        border: `1px solid ${p.accentSoft}40`,
-        borderRadius: 'var(--osd-radius)', padding: '36px 44px',
-        display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 16,
-      }}>
-        <div style={{ fontSize: 30, color: p.muted }}>出錯也好修</div>
-        <div style={{ fontSize: 34, fontWeight: 700, color: p.accentSoft, lineHeight: 1.3 }}>定位到哪一段<br />壞了</div>
-        <div style={{ fontSize: 28, color: p.textSoft }}>不用整份重來。</div>
+        <img src={magicImg} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
       </div>
     </div>
+    <div style={{ flex: 1, minWidth: 0 }}>
+      <div className="aw-up" style={{ animationDelay: '0.12s', marginBottom: 28 }}>
+        <EyebrowTag>換個角度想</EyebrowTag>
+      </div>
+      <h2 className="aw-up" style={{
+        animationDelay: '0.2s', fontSize: 76, fontWeight: 900,
+        lineHeight: 1.4, letterSpacing: '-0.02em', margin: 0,
+      }}>
+        AI 就像<span style={grad}>魔法</span>，
+        <br />你只要<span style={grad}>想像</span>得到，
+        <br />他就會幫你完成。
+      </h2>
+      <p className="aw-up" style={{ animationDelay: '0.4s', marginTop: 44, fontSize: 30, color: p.muted, lineHeight: 1.6 }}>
+        「無法想像的事物，就無法實現」—— 你的想像力，才是真正的天花板。
+      </p>
+    </div>
+  </div>
+);
 
-    <div style={{ marginTop: 28 }}>
-      <BottomNote>分工明確，每個節點各司其職，也各自可以優化。</BottomNote>
+// ────────────────────────────────────────────────────────────────────────────
+// SLIDE 21.5 — 金句（首頁樣式）：設計工作流越來越值錢
+// ────────────────────────────────────────────────────────────────────────────
+const FutureValue: Page = () => (
+  <div style={{ ...fill, display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '140px 160px' }}>
+    <Styles />
+    <img src={coverBgImg} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 0 }} />
+    {/* light overlay so text stays readable */}
+    <div style={{ position: 'absolute', inset: 0, background: 'rgba(237,230,239,0.42)', zIndex: 1 }} />
+    <div style={{ position: 'relative', zIndex: 2, display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
+      <div className="aw-up" style={{ marginBottom: 32 }}><EyebrowTag>人類掌舵，AI 執行</EyebrowTag></div>
+      <h1 className="aw-up" style={{
+        animationDelay: '0.1s',
+        fontFamily: font, fontSize: 88, fontWeight: 800,
+        lineHeight: 1.3, letterSpacing: '-0.03em', margin: 0,
+      }}>
+        學怎麼用 AI 工具，半年就過時；
+        <br />
+        學怎麼<span style={{ color: p.accent }}>設計</span>給 AI 用的工作流，
+        <br />
+        只會越來越<span style={{ color: p.accent }}>有價值</span>。
+      </h1>
     </div>
   </div>
 );
@@ -1177,7 +1444,7 @@ const CallToAction: Page = () => (
   <div style={{ ...fill, display: 'flex', flexDirection: 'column', padding: '120px', gap: 0 }}>
     <Styles />
     <GridBg />
-    <div className="aw-up" style={{ marginBottom: 20 }}><EyebrowTag>換你開始</EyebrowTag></div>
+    <div className="aw-up" style={{ marginBottom: 20 }}><EyebrowTag>換你開始 ｜ 接下來 1 小時實作</EyebrowTag></div>
     <h2 className="aw-up" style={{
       animationDelay: '0.08s',
       fontSize: 72, fontWeight: 800, lineHeight: 1.15, letterSpacing: '-0.025em',
@@ -1187,45 +1454,44 @@ const CallToAction: Page = () => (
       animationDelay: '0.14s',
       fontSize: 34, color: p.textSoft, margin: '0 0 16px',
     }}>別想著一次把所有流程都自動化，那會把自己搞死。</p>
-    <p className="aw-up" style={{
-      animationDelay: '0.18s',
-      fontSize: 32, color: p.muted, margin: '0 0 28px',
-    }}>挑一份你最煩、最重複的 Human SOP：</p>
 
-    <div className="aw-up" style={{
-      animationDelay: '0.24s',
-      display: 'flex', gap: 20, marginBottom: 32,
-    }}>
-      <div style={{
-        background: `${p.mint}22`, border: `1px solid ${p.mint}55`,
-        borderRadius: 999, padding: '16px 36px',
-        fontSize: 32, fontWeight: 700, color: p.mint,
-      }}>每週客戶週報</div>
-      <div style={{
-        background: `${p.accentSoft}22`, border: `1px solid ${p.accentSoft}55`,
-        borderRadius: 999, padding: '16px 36px',
-        fontSize: 32, fontWeight: 700, color: p.accentSoft,
-      }}>release 前 checklist</div>
-      <div style={{
-        background: `${p.amber}22`, border: `1px solid ${p.amber}55`,
-        borderRadius: 999, padding: '16px 36px',
-        fontSize: 32, fontWeight: 700, color: p.amber,
-      }}>新人 onboard 流程</div>
-    </div>
-
-    <div className="aw-up" style={{
-      animationDelay: '0.34s',
-      flex: 1,
-      background: p.surface, border: `1px solid ${p.border}`,
-      borderRadius: 'var(--osd-radius)', padding: '40px 48px',
-      fontSize: 34, lineHeight: 1.7, color: p.textSoft,
-      marginBottom: 28,
-    }}>
-      照四步走一遍。不求完美、不求全自動，<br />
-      先有一個<span style={{ color: p.accentSoft }}> 能省 30% 時間的版本</span>，再慢慢迭代。
-    </div>
-
-    <BottomNote>最難的不是技術，是決定從哪一件事開始。</BottomNote>
+    <Steps>
+      <Step>
+        <div style={{ display: 'flex', gap: 20, marginBottom: 32 }}>
+          <div style={{
+            background: `${p.mint}22`, border: `1px solid ${p.mint}55`,
+            flex: 1, minWidth: 0, borderRadius: 'var(--osd-radius)', padding: '114px 18px',
+            fontSize: 34, fontWeight: 700, textAlign: 'center' as const, color: p.mint,
+          }}>寫 KOL 邀約信</div>
+          <div style={{
+            background: `${p.accentSoft}22`, border: `1px solid ${p.accentSoft}55`,
+            flex: 1, minWidth: 0, borderRadius: 'var(--osd-radius)', padding: '114px 18px',
+            fontSize: 34, fontWeight: 700, textAlign: 'center' as const, color: p.accentSoft,
+          }}>紀錄報價</div>
+          <div style={{
+            background: `${p.amber}22`, border: `1px solid ${p.amber}55`,
+            flex: 1, minWidth: 0, borderRadius: 'var(--osd-radius)', padding: '114px 18px',
+            fontSize: 34, fontWeight: 700, textAlign: 'center' as const, color: p.amber,
+          }}>廣告上線文案檢查</div>
+          <div style={{
+            background: `${p.rose}22`, border: `1px solid ${p.rose}55`,
+            flex: 1, minWidth: 0, borderRadius: 'var(--osd-radius)', padding: '114px 18px',
+            fontSize: 34, fontWeight: 700, textAlign: 'center' as const, color: p.rose,
+          }}>跨平台文案</div>
+          <div style={{
+            background: `${p.accent}22`, border: `1px solid ${p.accent}55`,
+            flex: 1, minWidth: 0, borderRadius: 'var(--osd-radius)', padding: '114px 18px',
+            fontSize: 34, fontWeight: 700, textAlign: 'center' as const, color: p.accent,
+          }}>整理客戶需求</div>
+        </div>
+      </Step>
+      <div style={{ flex: 1 }} />
+      <Step>
+        <div>
+          <BottomNote>不求完美、不求全自動，先有一個能省 30% 時間的版本，再慢慢迭代。</BottomNote>
+        </div>
+      </Step>
+    </Steps>
   </div>
 );
 
@@ -1238,30 +1504,6 @@ const Closing: Page = () => (
     <Styles />
     {/* Full-bleed background image */}
     <img src={thankYouImg} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 0 }} />
-    {/* Light overlay so overlaid text stays readable */}
-    <div style={{ position: 'absolute', inset: 0, background: 'rgba(237,230,239,0.45)', zIndex: 1 }} />
-
-    {/* Text content anchored bottom-left */}
-    <div style={{
-      position: 'absolute', zIndex: 2,
-      bottom: 140, left: 160, right: 160,
-    }}>
-      <div className="aw-up" style={{
-        animationDelay: '0.1s',
-        width: 80, height: 3, borderRadius: 2,
-        background: `linear-gradient(90deg, ${p.accent}, transparent)`,
-        marginBottom: 32,
-      }} />
-      <p className="aw-up" style={{ animationDelay: '0.2s', margin: '0 0 12px', fontSize: 52, fontWeight: 900, lineHeight: 1.15, letterSpacing: '-0.025em', color: p.text, textAlign: 'center' }}>
-        學怎麼用 AI，半年就過時；
-        <br />
-        學怎麼<span style={{
-          background: `linear-gradient(90deg, ${p.accent}, ${p.accentSoft})`,
-          WebkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent',
-        }}>設計</span>給 AI 用的工作流，只會越來越值錢。
-      </p>
-      <p className="aw-up" style={{ animationDelay: '0.35s', margin: 0, fontSize: 32, fontWeight: 700, color: p.accent, letterSpacing: '0.06em', textAlign: 'center' }}>人類掌舵，AI 執行</p>
-    </div>
   </div>
 );
 
@@ -1301,6 +1543,7 @@ export const meta: SlideMeta = {
 
 export default [
   Cover,
+  SciencePop,
   PainPoints,
   CleaningMetaphor,
   MegaAgent,
@@ -1319,6 +1562,8 @@ export default [
   CaseStudyChapter,
   CaseStudyFourSteps,
   CaseStudyFlow,
-  CallToAction,
+  FutureValue,
+  MagicQuote,
   Closing,
+  CallToAction,
 ] satisfies Page[];
