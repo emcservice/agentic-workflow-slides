@@ -683,7 +683,7 @@ const HumanSOP: Page = () => (
       <Steps>
         <Step><BulletRow n={1} body="就是傳統的流程文件（Word、簡報）：第一步、第二步、例外怎麼處理。" /></Step>
         <Step><BulletRow n={2} body="人看得懂，是因為腦中會自動補上背景判斷。" delay={0.1} /></Step>
-        <Step><BulletRow n={3} body="例：SOP 寫「回家要把髒衣服丟洗衣機」。人會自己判斷——身淺色要分開，要放幾匙洗衣精。" delay={0.2} /></Step>
+        <Step><BulletRow n={3} body="例：SOP 寫「回家要把髒衣服丟洗衣機」。人會自己判斷——深淺色要分開，要放幾匙洗衣精。" delay={0.2} /></Step>
       </Steps>
     </div>
     <Steps>
