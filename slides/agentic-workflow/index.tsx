@@ -5,6 +5,7 @@ import coverBgImg from './assets/cover-bg.png';
 import thankYouImg from './assets/thank-you.png';
 import magicImg from './assets/magic-imagination.png';
 import workflowImg from './assets/workflow-n8n.png';
+import qrImg from './assets/qr-upload.png';
 
 export const notes: (string | undefined)[] = [
   undefined,
@@ -1965,6 +1966,40 @@ export const meta: SlideMeta = {
   createdAt: '2026-06-25T18:48:17.468Z',
 };
 
+// ────────────────────────────────────────────────────────────────────────────
+// 最後一頁 — 檔案上傳處（QR）
+// ────────────────────────────────────────────────────────────────────────────
+const UploadHere: Page = () => (
+  <div style={{ ...fill, display: 'flex', flexDirection: 'column', padding: '120px', gap: 0 }}>
+    <Styles />
+    <GridBg />
+    <div className="aw-up" style={{ marginBottom: 20 }}><EyebrowTag color={p.rose}>動手做做看</EyebrowTag></div>
+    <h2 className="aw-up" style={{
+      animationDelay: '0.08s',
+      fontSize: 72, fontWeight: 800, lineHeight: 1.15, letterSpacing: '-0.025em',
+      margin: '0 0 48px',
+    }}>檔案上傳處</h2>
+    <div style={{ flex: 1, display: 'flex', gap: 72, minHeight: 0, alignItems: 'center' }}>
+      <div className="aw-up" style={{
+        animationDelay: '0.14s', flexShrink: 0,
+        background: '#fff', border: `1px solid ${p.border}`,
+        borderRadius: 'var(--osd-radius)', padding: 36,
+        boxShadow: '0 24px 60px rgba(90,50,180,0.18)',
+      }}>
+        <img src={qrImg} style={{ width: 420, height: 420, display: 'block', imageRendering: 'pixelated' }} />
+      </div>
+      <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 20 }}>
+        <Steps>
+          <Step><BulletRow n={1} body="下載範例的資料夾" /></Step>
+          <Step><BulletRow n={2} body="打開 md 檔，複製裡面的文字" delay={0.05} /></Step>
+          <Step><BulletRow n={3} body="開始製作你的 SKILL" delay={0.1} /></Step>
+          <Step><BulletRow n={4} body="開一個資料夾，上傳你的 SKILL" delay={0.15} /></Step>
+        </Steps>
+      </div>
+    </div>
+  </div>
+);
+
 export default [
   Cover,
   SciencePop,
@@ -1996,6 +2031,7 @@ export default [
   MagicQuote,
   Closing,
   CallToAction,
-  PublishOrder,
   SkillTemplate,
+  PublishOrder,
+  UploadHere,
 ] satisfies Page[];
