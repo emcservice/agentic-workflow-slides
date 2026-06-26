@@ -4,6 +4,7 @@ import { Steps, Step } from '@open-slide/core';
 import coverBgImg from './assets/cover-bg.png';
 import thankYouImg from './assets/thank-you.png';
 import magicImg from './assets/magic-imagination.png';
+import workflowImg from './assets/workflow-n8n.png';
 
 export const notes: (string | undefined)[] = [
   undefined,
@@ -27,9 +28,13 @@ export const notes: (string | undefined)[] = [
   undefined,
   undefined,
   undefined,
+  undefined,
+  undefined,
+  undefined,
+  undefined,
+  undefined,
+  undefined,
   "「無法想像的事物，就無法實現」—— 你的想像力，才是真正的天花板。",
-  undefined,
-  undefined,
 ];
 
 
@@ -176,7 +181,8 @@ const BulletRow = ({ n, body, delay = 0 }: { n: number; body: string; delay?: nu
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       fontSize: 22, fontWeight: 700, color: p.accentSoft,
     }}>{n}</div>
-    <div style={{ fontSize: 34, lineHeight: 1.6, color: p.textSoft }}>{body}</div>
+    <div style={{ fontSize: 34, lineHeight: 1.6, color: p.textSoft }}>
+      {/* @slide-comment id="c-fafbbdf4" ts="2026-06-26T02:41:42.042Z" text="eyJub3RlIjoi6YCZ5YCL6IiJ5L6L5Yiq6ZmkIn0" */}{body}</div>
   </div>
 );
 
@@ -284,7 +290,7 @@ const SciencePop: Page = () => (
       animationDelay: '0.08s',
       fontSize: 72, fontWeight: 800, lineHeight: 1.15, letterSpacing: '-0.025em',
       margin: '0 0 40px',
-    }}>先搞懂：AI Agent 跟 LLM 差在哪？</h2>
+    }}>先搞懂：LLM 跟 AI Agent 差在哪？</h2>
     <div className="aw-cols" style={{ flex: 1, display: 'flex', gap: 32, minHeight: 0 }}>
       <Steps>
         {/* LEFT — LLM */}
@@ -829,6 +835,36 @@ const ComparisonTable: Page = () => {
 };
 
 // ────────────────────────────────────────────────────────────────────────────
+// SLIDE 11.5 — 真實工作流（越串越完整）
+// Budget: eyebrow 43 + title 80 + subtitle 56 + image card fills rest
+// ────────────────────────────────────────────────────────────────────────────
+const WorkflowReality: Page = () => (
+  <div style={{ ...fill, display: 'flex', flexDirection: 'column', padding: '90px 120px', gap: 0 }}>
+    <Styles />
+    <GridBg />
+    <div className="aw-up" style={{ marginBottom: 16 }}><EyebrowTag>真實長相</EyebrowTag></div>
+    <h2 className="aw-up" style={{
+      animationDelay: '0.08s',
+      fontSize: 64, fontWeight: 800, lineHeight: 1.12, letterSpacing: '-0.025em',
+      margin: '0 0 10px',
+    }}>工作流，會越串越完整</h2>
+    <p className="aw-up" style={{
+      animationDelay: '0.14s',
+      fontSize: 28, color: p.muted, margin: '0 0 28px',
+    }}>有新需求，就接上一條分支——不用重寫，只要加一段。</p>
+    <div className="aw-up" style={{
+      animationDelay: '0.2s',
+      flex: 1, minHeight: 0,
+      background: p.surfaceHi, border: `1px solid ${p.border}`,
+      borderRadius: 'var(--osd-radius)', padding: 24,
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+    }}>
+      <img src={workflowImg} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain', display: 'block' }} />
+    </div>
+  </div>
+);
+
+// ────────────────────────────────────────────────────────────────────────────
 // SLIDE 11 — PART 2 章節頁
 // Budget (160px): 760px
 // Pill 44+32=76; Title 104+52=156; 4 step boxes 220; gap 32; note 36 → 520✓
@@ -946,7 +982,7 @@ const Step1: Page = () => (
           <div style={{ flex: 1, background: p.surface, border: `1px solid ${p.border}`, borderRadius: 'var(--osd-radius)', padding: '36px 40px', display: 'flex', flexDirection: 'column', gap: 16 }}>
             <div style={{ width: 32, height: 3, borderRadius: 2, background: p.amber }} />
             <div style={{ fontSize: 36, fontWeight: 700 }}>結構化格式</div>
-            <div style={{ fontSize: 28, lineHeight: 1.65, color: p.textSoft }}>用 Markdown 把 Parameters / Steps / Error Handling 分區塊。人看得懂，也方便接上工具。</div>
+            <div style={{ fontSize: 28, lineHeight: 1.65, color: p.textSoft }}>用 Markdown 把 步驟、參數、錯誤處理 分區塊。人看得懂，也方便接上工具。</div>
           </div>
         </Step>
       </Steps>
@@ -996,8 +1032,8 @@ const Step2: Page = () => (
         <Step>
           <div style={{ flex: 1, background: p.surface, border: `1px solid ${p.border}`, borderRadius: 'var(--osd-radius)', padding: '36px 40px', display: 'flex', flexDirection: 'column', gap: 16 }}>
             <div style={{ width: 32, height: 3, borderRadius: 2, background: p.amber }} />
-            <div style={{ fontSize: 36, fontWeight: 700 }}>用 artifact 串接</div>
-            <div style={{ fontSize: 28, lineHeight: 1.65, color: p.textSoft }}>上一棒的 output，就是下一棒的 input（通常是一份 JSON）。</div>
+            <div style={{ fontSize: 36, fontWeight: 700 }}>資料交接</div>
+            <div style={{ fontSize: 28, lineHeight: 1.65, color: p.textSoft }}>上個節點整理好的資料，就是下個節點的輸入（通常是一份 JSON）。</div>
           </div>
         </Step>
       </Steps>
@@ -1084,7 +1120,7 @@ const Step4: Page = () => (
       animationDelay: '0.08s',
       fontSize: 68, fontWeight: 800, lineHeight: 1.15, letterSpacing: '-0.025em',
       margin: '0 0 36px',
-    }}>漂亮的 SOP 接不到真實資料，就只是一份不會動的文件</h2>
+    }}>再漂亮的 SOP，沒接上工具，終究只是紙上談兵</h2>
     <div style={{ flex: 1, display: 'flex', gap: 28, minHeight: 0 }}>
       <Steps>
         <Step>
@@ -1133,7 +1169,7 @@ const MyWorkflows: Page = () => (
     <p className="aw-up" style={{
       animationDelay: '0.12s',
       fontSize: 30, color: p.muted, margin: '0 0 28px',
-    }}>他會自己判別要用哪一個工作流</p>
+    }}>他會自己判別要用哪一個Skills</p>
 
     <div style={{ flex: 1, display: 'grid', gridTemplateColumns: '1fr 1fr', gridTemplateRows: '1fr 1fr', gap: 24, minHeight: 0 }}>
       <Steps>
@@ -1209,24 +1245,24 @@ const CaseStudyChapter: Page = () => (
       animationDelay: '0.1s',
       fontSize: 96, fontWeight: 900, lineHeight: 1.1, letterSpacing: '-0.035em',
       margin: '0 0 48px',
-    }}>把「結案報告」<br />變成一條 AI 工作流</h2>
+    }}>把「客服回信」<br />變成一條 AI 工作流</h2>
 
     <p className="aw-up" style={{
       animationDelay: '0.18s',
       fontSize: 32, color: p.textSoft, margin: '0 0 40px',
-    }}>每個案子跑完，你都要做這些：</p>
+    }}>每次學員來信，你都要做這些：</p>
 
     <div style={{ display: 'flex', gap: 24 }}>
       <Steps>
-        <Step><div style={{ flex: 1, background: `${p.mint}18`, border: `1px solid ${p.mint}40`, borderRadius: 'var(--osd-radius)', padding: '24px 28px', fontSize: 30, fontWeight: 700, color: p.mint, textAlign: 'center' as const }}>撈整期數據</div></Step>
-        <Step><div style={{ flex: 1, background: `${p.accentSoft}18`, border: `1px solid ${p.accentSoft}40`, borderRadius: 'var(--osd-radius)', padding: '24px 28px', fontSize: 30, fontWeight: 700, color: p.accentSoft, textAlign: 'center' as const }}>算 KPI 達成率</div></Step>
-        <Step><div style={{ flex: 1, background: `${p.amber}18`, border: `1px solid ${p.amber}40`, borderRadius: 'var(--osd-radius)', padding: '24px 28px', fontSize: 30, fontWeight: 700, color: p.amber, textAlign: 'center' as const }}>寫亮點與檢討</div></Step>
-        <Step><div style={{ flex: 1, background: `${p.rose}18`, border: `1px solid ${p.rose}40`, borderRadius: 'var(--osd-radius)', padding: '24px 28px', fontSize: 30, fontWeight: 700, color: p.rose, textAlign: 'center' as const }}>套客戶簡報模板</div></Step>
+        <Step><div style={{ flex: 1, background: `${p.mint}18`, border: `1px solid ${p.mint}40`, borderRadius: 'var(--osd-radius)', padding: '24px 28px', fontSize: 30, fontWeight: 700, color: p.mint, textAlign: 'center' as const }}>開信箱看新問題</div></Step>
+        <Step><div style={{ flex: 1, background: `${p.accentSoft}18`, border: `1px solid ${p.accentSoft}40`, borderRadius: 'var(--osd-radius)', padding: '24px 28px', fontSize: 30, fontWeight: 700, color: p.accentSoft, textAlign: 'center' as const }}>看懂學員在問什麼</div></Step>
+        <Step><div style={{ flex: 1, background: `${p.amber}18`, border: `1px solid ${p.amber}40`, borderRadius: 'var(--osd-radius)', padding: '24px 28px', fontSize: 30, fontWeight: 700, color: p.amber, textAlign: 'center' as const }}>翻 FAQ 找答案</div></Step>
+        <Step><div style={{ flex: 1, background: `${p.rose}18`, border: `1px solid ${p.rose}40`, borderRadius: 'var(--osd-radius)', padding: '24px 28px', fontSize: 30, fontWeight: 700, color: p.rose, textAlign: 'center' as const }}>寫一封回覆草稿</div></Step>
       </Steps>
     </div>
     <Steps>
       <Step>
-        <div style={{ marginTop: 40, fontSize: 26, color: p.muted }}>不複雜，但很煩、很重複，而且每個案子都要做一次 → 最適合交給 AI。</div>
+        <div style={{ marginTop: 40, fontSize: 26, color: p.muted }}>瑣碎、重複、每天都來 → 最適合交給 AI；但回信前，你要把關。</div>
       </Step>
     </Steps>
   </div>
@@ -1245,7 +1281,7 @@ const CaseStudyFourSteps: Page = () => (
       animationDelay: '0.08s',
       fontSize: 72, fontWeight: 800, lineHeight: 1.15, letterSpacing: '-0.025em',
       margin: '0 0 36px',
-    }}>結案報告：四步走一遍</h2>
+    }}>客服回信：四步走一遍</h2>
 
     <div style={{ flex: 1, display: 'grid', gridTemplateColumns: '1fr 1fr', gridTemplateRows: '1fr 1fr', gap: 24, minHeight: 0 }}>
       <Steps>
@@ -1256,7 +1292,7 @@ const CaseStudyFourSteps: Page = () => (
             display: 'flex', flexDirection: 'column', gap: 14, height: '100%', boxSizing: 'border-box' as const,
           }}>
             <div style={{ fontSize: 22, fontWeight: 700, color: p.mint, letterSpacing: '0.08em' }}>01 標準化</div>
-            <div style={{ fontSize: 27, lineHeight: 1.6, color: p.textSoft }}>寫一份 SOP。MUST 撈齊全期數據、算達成率；SHOULD 標出亮點；MUST 套模板。</div>
+            <div style={{ fontSize: 27, lineHeight: 1.6, color: p.textSoft }}>寫一份 SOP「vintex-cs-draft」。<br />MUST 只建草稿、不直接寄；<br />MUST 只依 FAQ 回答、不自行編造。</div>
           </div>
         </Step>
         <Step>
@@ -1266,7 +1302,7 @@ const CaseStudyFourSteps: Page = () => (
             display: 'flex', flexDirection: 'column', gap: 14, height: '100%', boxSizing: 'border-box' as const,
           }}>
             <div style={{ fontSize: 22, fontWeight: 700, color: p.accentSoft, letterSpacing: '0.08em' }}>02 拆解</div>
-            <div style={{ fontSize: 27, lineHeight: 1.6, color: p.textSoft }}>拆成兩個 skill：① 數據彙整（撈數據→算 KPI→輸出 JSON）② 報告草稿（吃 JSON→寫初稿）。靠 JSON 串接。</div>
+            <div style={{ fontSize: 27, lineHeight: 1.6, color: p.textSoft }}>拆成節點：<br />① 找信（Gmail 搜轉寄信）<br />② 查答（比對 Notion FAQ）<br />③ 寫草稿。靠信件內容＋FAQ 資料庫串接。</div>
           </div>
         </Step>
         <Step>
@@ -1276,7 +1312,7 @@ const CaseStudyFourSteps: Page = () => (
             display: 'flex', flexDirection: 'column', gap: 14, height: '100%', boxSizing: 'border-box' as const,
           }}>
             <div style={{ fontSize: 22, fontWeight: 700, color: p.amber, letterSpacing: '0.08em' }}>03 雙向開發</div>
-            <div style={{ fontSize: 27, lineHeight: 1.6, color: p.textSoft }}>跑第一版發現它把「曝光」當「觸及」。回頭補規則、再跑，三五輪就穩。</div>
+            <div style={{ fontSize: 27, lineHeight: 1.6, color: p.textSoft }}>第一版會抓錯問題、找錯 FAQ。<br />補規則（跳過行事曆邀請、已回覆的信）</div>
           </div>
         </Step>
         <Step>
@@ -1286,7 +1322,7 @@ const CaseStudyFourSteps: Page = () => (
             display: 'flex', flexDirection: 'column', gap: 14, height: '100%', boxSizing: 'border-box' as const,
           }}>
             <div style={{ fontSize: 22, fontWeight: 700, color: p.rose, letterSpacing: '0.08em' }}>04 整合</div>
-            <div style={{ fontSize: 27, lineHeight: 1.6, color: p.textSoft }}>接數據源自動產初稿；故事線設成 human-in-the-loop，由你潤飾、拍板。</div>
+            <div style={{ fontSize: 27, lineHeight: 1.6, color: p.textSoft }}>接 Gmail＋Notion；查不到答案就轉人工。<br />草稿設 human-in-the-loop，AI 只擬稿，你按寄送。</div>
           </div>
         </Step>
       </Steps>
@@ -1319,13 +1355,13 @@ const CaseStudyFlow: Page = () => (
     <Steps>
       <Step>
         <div style={{ display: 'flex', alignItems: 'center', gap: 0, marginBottom: 32 }}>
-          <FlowBox label="撈數據" color={p.mint} />
+          <FlowBox label="找客服轉寄信" color={p.mint} />
           <Arrow />
-          <FlowBox label="算 KPI" color={p.accentSoft} />
+          <FlowBox label="讀懂問題" color={p.accentSoft} />
           <Arrow />
-          <FlowBox label="寫初稿" color={p.accent} />
+          <FlowBox label="查 FAQ" color={p.accent} />
           <Arrow />
-          <FlowBox label="套模板" color={p.amber} />
+          <FlowBox label="寫草稿" color={p.amber} />
           <Arrow />
           <div style={{
             flex: 1, background: `${p.rose}18`,
@@ -1334,7 +1370,7 @@ const CaseStudyFlow: Page = () => (
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             padding: '28px 16px',
             fontSize: 30, fontWeight: 800, color: p.rose, textAlign: 'center' as const,
-          }}>你潤飾<br />拍板 ✓</div>
+          }}>你檢查<br />寄送 ✓</div>
         </div>
       </Step>
       <Step>
@@ -1345,9 +1381,9 @@ const CaseStudyFlow: Page = () => (
             borderRadius: 'var(--osd-radius)', padding: '36px 44px',
             display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 16,
           }}>
-            <div style={{ fontSize: 30, color: p.muted }}>原本大半天</div>
-            <div style={{ fontSize: 72, fontWeight: 900, color: p.mint, lineHeight: 1 }}>30 分鐘</div>
-            <div style={{ fontSize: 28, color: p.textSoft }}>AI 跑完初稿，你只要潤飾。</div>
+            <div style={{ fontSize: 30, color: p.muted }}>原本每封慢慢想</div>
+            <div style={{ fontSize: 72, fontWeight: 900, color: p.mint, lineHeight: 1 }}>草稿就緒</div>
+            <div style={{ fontSize: 28, color: p.textSoft }}>AI 依 FAQ 擬好，你看過就送。</div>
           </div>
           <div style={{
             flex: 1, background: p.surface,
@@ -1355,18 +1391,231 @@ const CaseStudyFlow: Page = () => (
             borderRadius: 'var(--osd-radius)', padding: '36px 44px',
             display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 16,
           }}>
-            <div style={{ fontSize: 30, color: p.muted }}>出錯也好修</div>
-            <div style={{ fontSize: 34, fontWeight: 700, color: p.accentSoft, lineHeight: 1.3 }}>定位到哪一段<br />壞了</div>
-            <div style={{ fontSize: 28, color: p.textSoft }}>不用整份重來。</div>
+            <div style={{ fontSize: 30, color: p.muted }}>不會亂回</div>
+            <div style={{ fontSize: '72px', fontWeight: 700, color: p.accentSoft, lineHeight: 1.3 }}>查不到 →{''}轉人工</div>
+            <div style={{ fontSize: 28, color: p.textSoft }}>只依 FAQ，絕不自行編造。</div>
           </div>
         </div>
       </Step>
       <Step>
         <div style={{ marginTop: 28 }}>
-          <BottomNote>分工明確，每個節點各司其職，也各自可以優化。</BottomNote>
+          <BottomNote>只依 FAQ、只建草稿——AI 跑流程，你守住每一封的品質。</BottomNote>
         </div>
       </Step>
     </Steps>
+  </div>
+);
+
+// ────────────────────────────────────────────────────────────────────────────
+// SLIDE 21.a–c — 把 Skill 打開來看（SKILL.md 分段，逐段浮現）
+// ────────────────────────────────────────────────────────────────────────────
+const skMono = '"SF Mono", "JetBrains Mono", Menlo, Consolas, monospace';
+
+const Dot = ({ c }: { c: string }) => (
+  <span style={{ width: 14, height: 14, borderRadius: '50%', background: c, display: 'inline-block' }} />
+);
+
+// Dark "editor" panel that frames the file content
+const SkillPanel = ({ children }: { children: React.ReactNode }) => (
+  <div className="aw-up" style={{
+    animationDelay: '0.16s',
+    flex: 1, minHeight: 0, background: '#1a1230',
+    border: `1px solid ${p.borderHi}`, borderRadius: 'var(--osd-radius)',
+    overflow: 'hidden', display: 'flex', flexDirection: 'column',
+    boxShadow: '0 24px 60px rgba(90,50,180,0.18)',
+  }}>
+    <div style={{
+      display: 'flex', alignItems: 'center', gap: 12,
+      padding: '18px 28px', borderBottom: '1px solid rgba(255,255,255,0.08)',
+      background: 'rgba(255,255,255,0.03)',
+    }}>
+      <Dot c="#ff5f57" /><Dot c="#febc2e" /><Dot c="#28c840" />
+      <span style={{ marginLeft: 14, fontFamily: skMono, fontSize: 24, color: '#9d8fc0' }}>SKILL.md</span>
+    </div>
+    <div style={{ flex: 1, minHeight: 0, padding: '36px 48px', display: 'flex', flexDirection: 'column', gap: 20, overflow: 'hidden' }}>
+      {children}
+    </div>
+  </div>
+);
+
+const DocBlock = ({ children }: { children: React.ReactNode }) => (
+  <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>{children}</div>
+);
+// `## heading`
+const DocH = ({ children }: { children: React.ReactNode }) => (
+  <div style={{ fontFamily: skMono, fontSize: 30, fontWeight: 700, color: '#7ee0a8' }}>
+    <span style={{ color: '#5a4a86' }}>## </span>{children}
+  </div>
+);
+// `# comment`
+const DocC = ({ children }: { children: React.ReactNode }) => (
+  <div style={{ fontFamily: skMono, fontSize: 26, color: '#6e5fa0' }}>{children}</div>
+);
+// value / body line
+const DocT = ({ children, indent }: { children: React.ReactNode; indent?: boolean }) => (
+  <div style={{ fontFamily: skMono, fontSize: 27, color: '#e8e0f8', lineHeight: 1.5, paddingLeft: indent ? 36 : 0 }}>{children}</div>
+);
+const Key = ({ children }: { children: React.ReactNode }) => (
+  <span style={{ color: '#b9a6ff' }}>{children}</span>
+);
+// field-table row:  key  →  value
+const DocKV = ({ k, v, dense }: { k: string; v: React.ReactNode; dense?: boolean }) => (
+  <div style={{ display: 'flex', gap: 18, fontFamily: skMono, fontSize: dense ? 23 : 25, lineHeight: 1.4 }}>
+    <span style={{ flexShrink: 0, width: dense ? 150 : 168, color: '#b9a6ff' }}>{k}</span>
+    <span style={{ color: '#e8e0f8', minWidth: 0, wordBreak: 'break-all' }}>{v}</span>
+  </div>
+);
+
+const SkillHeader = ({ tag, color, title }: { tag: string; color: string; title: string }) => (
+  <>
+    <div className="aw-up" style={{ marginBottom: 16 }}><EyebrowTag color={color}>{tag}</EyebrowTag></div>
+    <h2 className="aw-up" style={{
+      animationDelay: '0.08s',
+      fontSize: 60, fontWeight: 800, lineHeight: 1.12, letterSpacing: '-0.025em',
+      margin: '0 0 26px',
+    }}>{title}</h2>
+  </>
+);
+
+const skillFill: React.CSSProperties = { ...fill, display: 'flex', flexDirection: 'column', padding: '80px 120px' };
+
+// Page a — frontmatter + 核心原則
+const SkillIntro: Page = () => (
+  <div style={skillFill}>
+    <Styles />
+    <GridBg />
+    <SkillHeader tag="把 Skill 打開來看" color={p.rose} title="客服回信.SKILL 裡長這樣" />
+    <SkillPanel>
+      <Steps>
+        <Step><DocC># 給 AI 的 SOP ＋ 判斷心法，打包成一個資料夾</DocC></Step>
+        <Step><DocBlock>
+          <DocT><Key>name:</Key>{' vintex-cs-draft'}</DocT>
+          <DocT><Key>description:</Key>{' 運釀平台客服小幫手。先查 Gmail 找'}</DocT>
+          <DocT indent>客服轉寄信 → 到 Notion FAQ 搜尋答案 → 有答案建草稿（含課程連結）、沒答案寄通知給負責人</DocT>
+          <DocT indent>當使用者說「幫我回客服信」、「有新的客服問題」、「處理 service 信箱的轉寄信」時，或每次排程自動執行時啟動。</DocT>
+          <DocT indent>絕不自行發明回答，也不直接送出信件。</DocT>
+        </DocBlock></Step>
+        <Step><DocH>核心原則</DocH></Step>
+        <Step><DocC># 任務＝找信 → 查答案 → 建草稿或通知，三步驟缺一不可</DocC></Step>
+        <Step><DocT><span style={{ color: '#7ee0a8' }}>1.</span> 永遠只建立草稿（create_draft），絕不直接發送信件</DocT></Step>
+        <Step><DocT><span style={{ color: '#7ee0a8' }}>2.</span> 只以 Notion FAQ 的「回答」欄位為依據，絕不自行編造</DocT></Step>
+      </Steps>
+    </SkillPanel>
+  </div>
+);
+
+// Page b — 步驟一：查 Gmail
+const SkillStep1: Page = () => (
+  <div style={skillFill}>
+    <Styles />
+    <GridBg />
+    <SkillHeader tag="步驟 1 / 4" color={p.mint} title="查 Gmail 有沒有新客服信" />
+    <SkillPanel>
+      <Steps>
+        <Step><DocBlock>
+          <DocH>步驟一　查 Gmail 是否有新客服信</DocH>
+          <DocC># 工具：gmail_search_messages　搜尋條件</DocC>
+          <DocT indent>from:service@emctaipei.com subject:Fwd:</DocT>
+          <DocT indent>排程執行加 newer_than:1h；手動觸發則找近期未處理的信</DocT>
+        </DocBlock></Step>
+        <Step><DocH>判斷哪些需要處理</DocH></Step>
+        <Step><DocT indent>有 <Key>DRAFT</Key> 標籤（已有草稿在等）　→ 跳過</DocT></Step>
+        <Step><DocT indent>已有 <Key>SENT</Key> 回覆　　　　　　　→ 跳過</DocT></Step>
+        <Step><DocT indent>純行事曆邀請（非客戶問題）　　→ 跳過</DocT></Step>
+        <Step><DocC># 沒有需要處理的信件 → 直接結束，不做任何動作</DocC></Step>
+      </Steps>
+    </SkillPanel>
+  </div>
+);
+
+// Page c — 步驟二 + 步驟三
+const SkillStep23: Page = () => (
+  <div style={skillFill}>
+    <Styles />
+    <GridBg />
+    <SkillHeader tag="步驟 2 & 3 / 4" color={p.accentSoft} title="讀信、再到 Notion FAQ 查答案" />
+    <SkillPanel>
+      <Steps>
+        <Step><DocBlock>
+          <DocH>步驟二　讀信，理解學員的問題</DocH>
+          <DocC># 用 gmail_read_thread 取得完整對話串，找出：</DocC>
+          <DocT indent>學員的原始問題、email 地址、原始 thread ID、信件主旨</DocT>
+        </DocBlock></Step>
+        <Step><DocBlock>
+          <DocH>步驟三　到 Notion FAQ 查對應答案</DocH>
+          <DocT indent><Key>工具：</Key>notion-search　→ 命中後用 notion-fetch 讀頁面</DocT>
+          <DocT indent><Key>資料源：</Key>客服 FAQ 資料庫（collection://3117…cf7e）</DocT>
+        </DocBlock></Step>
+        <Step><DocBlock>
+          <DocC># 確認這兩件事才算數：</DocC>
+          <DocT indent>「啟用」欄位 = true，且「回答」欄位真能解學員的問題</DocT>
+        </DocBlock></Step>
+        <Step><DocBlock>
+          <DocT><span style={{ color: p.mint }}>✅ 有答案</span>　明確、啟用中、內容直接適用</DocT>
+          <DocT><span style={{ color: p.rose }}>❌ 沒答案</span>　找不到、回答為空、或不夠具體</DocT>
+        </DocBlock></Step>
+      </Steps>
+    </SkillPanel>
+  </div>
+);
+
+// Page d — 步驟四A：有答案 → 建草稿
+const SkillStep4A: Page = () => (
+  <div style={{ ...fill, display: 'flex', flexDirection: 'column', padding: '64px 120px' }}>
+    <Styles />
+    <GridBg />
+    <SkillHeader tag="步驟 4A ｜ 有答案" color={p.mint} title="建立 Gmail 草稿（不直接寄）" />
+    <SkillPanel>
+      <Steps>
+        <Step><DocBlock>
+          <DocC># gmail_create_draft 的欄位</DocC>
+          <DocKV dense k="to" v="學員的 email（從原始轉寄信取得）" />
+          <DocKV dense k="subject" v={'Re: {原始信件主旨}'} />
+          <DocKV dense k="threadId" v="原始 thread ID" />
+          <DocKV dense k="cc" v="eric.fu@emctaipei.com" />
+          <DocKV dense k="contentType" v="text/plain" />
+        </DocBlock></Step>
+        <Step><DocBlock>
+          <DocC># 信件內文格式</DocC>
+          <DocT>{'{學員名字或「您」} 你好，'}</DocT>
+          <DocT>{'{依 FAQ「回答」欄位，用口語繁中整理的回覆}'}</DocT>
+          <DocT>常用課程連結：</DocT>
+          <DocT indent>・CPT：vintexercise.com/courses/vintexcpt</DocT>
+          <DocT indent>・CSCS：vintexercise.com/courses/5</DocT>
+          <DocT indent>・癌症訓練教練：vintexercise.com/courses/cancer</DocT>
+          <DocT>如有其他問題，歡迎隨時與我們聯繫！　—　運釀團隊</DocT>
+        </DocBlock></Step>
+        <Step><DocC># 附課程連結是必要的——給學員明確 CTA，也可能促成報名</DocC></Step>
+      </Steps>
+    </SkillPanel>
+  </div>
+);
+
+// Page e — 步驟四B：沒答案 → 通知 + 執行完畢後
+const SkillStep4B: Page = () => (
+  <div style={skillFill}>
+    <Styles />
+    <GridBg />
+    <SkillHeader tag="步驟 4B ｜ 沒答案" color={p.rose} title="沒有標準答案，就轉人工確認" />
+    <SkillPanel>
+      <Steps>
+        <Step><DocBlock>
+          <DocC># 用 gmail_create_draft 建一封通知信</DocC>
+          <DocKV k="to" v="yvette.ho@emctaipei.com" />
+          <DocKV k="subject" v={'⚠️ 客服信件需人工確認｜{原始問題主旨}'} />
+        </DocBlock></Step>
+        <Step><DocBlock>
+          <DocT indent>Hoho 你好，這封信在 FAQ 找不到對應答案，請協助判斷：</DocT>
+          <DocT indent>【學員問題】…　【原始寄件人】學員 email</DocT>
+          <DocT indent>【Gmail 連結】mail.google.com/…/{'{threadId}'}</DocT>
+        </DocBlock></Step>
+        <Step><DocH>執行完畢後</DocH></Step>
+        <Step><DocBlock>
+          <DocC># 每封信只處理一次，不重複建草稿。完成後告知：</DocC>
+          <DocT indent>哪些已建草稿、哪些需人工確認、哪些已跳過（都附原因）</DocT>
+        </DocBlock></Step>
+      </Steps>
+    </SkillPanel>
   </div>
 );
 
@@ -1393,7 +1642,7 @@ const MagicQuote: Page = () => (
     </div>
     <div style={{ flex: 1, minWidth: 0 }}>
       <div className="aw-up" style={{ animationDelay: '0.12s', marginBottom: 28 }}>
-        <EyebrowTag>換個角度想</EyebrowTag>
+        <EyebrowTag>{''}</EyebrowTag>
       </div>
       <h2 className="aw-up" style={{
         animationDelay: '0.2s', fontSize: 76, fontWeight: 900,
@@ -1507,6 +1756,181 @@ const Closing: Page = () => (
   </div>
 );
 
+// ────────────────────────────────────────────────────────────────────────────
+// SLIDE 25 — 發表順序（部門平均分配抽籤結果，每天 15 人）
+// ────────────────────────────────────────────────────────────────────────────
+const publishSchedule: { date: string; color: string; groups: { dept: string; names: string[] }[] }[] = [
+  {
+    date: '7 / 8', color: p.mint,
+    groups: [
+      { dept: '凱曜專案部', names: ['鄭怡姍', '張書華', '林安芝', '周鈴真', '陳紫庭', '廖翊宏', '謝榕', '蘇煒庭'] },
+      { dept: '凱曜設計部', names: ['許芷芸', '李光颿'] },
+      { dept: '凱曜企劃部', names: ['朱祖翎'] },
+      { dept: '凱曜監測部', names: ['周良峰'] },
+      { dept: '承揚口碑行銷部', names: ['章振晏', '陳昱銓'] },
+      { dept: '承揚口碑專案部', names: ['吳孟熹'] },
+    ],
+  },
+  {
+    date: '7 / 15', color: p.accentSoft,
+    groups: [
+      { dept: '凱曜專案部', names: ['范若儀', '劉伊庭', '邱彣', '孟承憲', '張心瑋', '吳育儒', '陳雅筠', '吳懷柔'] },
+      { dept: '凱曜設計部', names: ['鐘宏揚', '陳家蓁'] },
+      { dept: '凱曜企劃部', names: ['羅珮云'] },
+      { dept: '凱曜監測部', names: ['張亦忻'] },
+      { dept: '承揚口碑行銷部', names: ['張宥勝', '黃羿傑'] },
+      { dept: '承揚口碑專案部', names: ['陳映彤'] },
+    ],
+  },
+  {
+    date: '7 / 22', color: p.amber,
+    groups: [
+      { dept: '凱曜專案部', names: ['鄭筱舢', '曹又晨', '莊亞馨', '趙士閎', '林書妤', '鍾柏捷', '張凱銘', '余采馨'] },
+      { dept: '凱曜設計部', names: ['陳柏政'] },
+      { dept: '凱曜企劃部', names: ['李明庭'] },
+      { dept: '凱曜監測部', names: ['簡嘉頡'] },
+      { dept: '承揚口碑行銷部', names: ['吳咏蓁', '石崇劭'] },
+      { dept: '承揚口碑專案部', names: ['蔡昀庭', '曾秀娟'] },
+    ],
+  },
+  {
+    date: '7 / 29', color: p.rose,
+    groups: [
+      { dept: '凱曜專案部', names: ['曾瀚萱', '張晴', '張鈞皓', '黎子瑄', '石昕宜', '廖家緯', '呂敏綺'] },
+      { dept: '凱曜設計部', names: ['田倚菁'] },
+      { dept: '凱曜企劃部', names: ['廖秦葦', '吳冠賢'] },
+      { dept: '凱曜監測部', names: ['曾唯豪'] },
+      { dept: '承揚口碑行銷部', names: ['江柏毅', '陳柏維'] },
+      { dept: '承揚口碑專案部', names: ['葉哲維', '黃漢元'] },
+    ],
+  },
+];
+
+const PublishCard = ({ item, delay }: { item: typeof publishSchedule[number]; delay: number }) => {
+  const total = item.groups.reduce((n, g) => n + g.names.length, 0);
+  return (
+    <div className="aw-up" style={{
+      animationDelay: `${delay}s`,
+      background: p.surface, border: `1px solid ${item.color}40`,
+      borderTop: `4px solid ${item.color}`,
+      borderRadius: 'var(--osd-radius)', padding: '24px 32px',
+      display: 'flex', flexDirection: 'column', gap: 12,
+      height: '100%', boxSizing: 'border-box' as const, minHeight: 0,
+    }}>
+      <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
+        <div style={{ fontSize: 38, fontWeight: 800, color: item.color, letterSpacing: '0.02em' }}>{item.date}</div>
+        <div style={{ fontSize: 20, fontWeight: 600, color: p.muted }}>{total} 人</div>
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
+        {item.groups.map((g) => (
+          <div key={g.dept} style={{ display: 'flex', gap: 14, alignItems: 'baseline' }}>
+            <div style={{ flexShrink: 0, width: 130, fontSize: 17, fontWeight: 700, color: p.accentSoft }}>{g.dept}</div>
+            <div style={{ fontSize: 19, lineHeight: 1.45, color: p.textSoft }}>{g.names.join('、')}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const PublishOrder: Page = () => (
+  <div style={{ ...fill, display: 'flex', flexDirection: 'column', padding: '100px 120px', gap: 0 }}>
+    <Styles />
+    <GridBg />
+    <div className="aw-up" style={{ marginBottom: 16 }}><EyebrowTag>My Skills</EyebrowTag></div>
+    <h2 className="aw-up" style={{
+      animationDelay: '0.08s',
+      fontSize: 72, fontWeight: 800, lineHeight: 1.15, letterSpacing: '-0.025em',
+      margin: '0 0 32px',
+    }}>發表順序</h2>
+    <div style={{ flex: 1, display: 'grid', gridTemplateColumns: '1fr 1fr', gridTemplateRows: '1fr 1fr', gap: 24, minHeight: 0 }}>
+      {publishSchedule.map((item, i) => (
+        <PublishCard key={item.date} item={item} delay={0.16 + i * 0.1} />
+      ))}
+    </div>
+  </div>
+);
+
+// ────────────────────────────────────────────────────────────────────────────
+// SLIDE 26 — Skill 範本（給大家照著做）
+// ────────────────────────────────────────────────────────────────────────────
+const mono = 'ui-monospace, "SF Mono", Menlo, "Cascadia Code", monospace';
+
+type CodeLine = { t: string; k?: 'delim' | 'key' | 'head' | 'bullet' };
+const lineColor: Record<string, string> = {
+  delim: p.dim, key: p.mint, head: p.accentSoft, bullet: p.textSoft,
+};
+const CodePanel = ({ label, lines, delay }: { label: string; lines: CodeLine[]; delay: number }) => (
+  <div className="aw-up" style={{
+    animationDelay: `${delay}s`,
+    flex: 1, minWidth: 0, background: p.surfaceHi,
+    border: `1px solid ${p.borderHi}`, borderRadius: 'var(--osd-radius)',
+    display: 'flex', flexDirection: 'column', overflow: 'hidden',
+  }}>
+    <div style={{
+      padding: '14px 28px', fontSize: 19, fontWeight: 700, color: p.accentSoft,
+      letterSpacing: '0.04em', borderBottom: `1px solid ${p.border}`, background: `${p.accent}0c`,
+    }}>{label}</div>
+    <div style={{ padding: '26px 30px', display: 'flex', flexDirection: 'column', gap: 3 }}>
+      {lines.map((l, i) => (
+        <div key={i} style={{
+          fontFamily: mono, fontSize: 23, lineHeight: 1.5, whiteSpace: 'pre-wrap',
+          color: l.k ? lineColor[l.k] : p.textSoft,
+          fontWeight: l.k === 'head' || l.k === 'key' ? 700 : 400,
+        }}>{l.t || ' '}</div>
+      ))}
+    </div>
+  </div>
+);
+
+const skillTemplate: CodeLine[] = [
+  { t: '---', k: 'delim' },
+  { t: 'name: <英文-kebab-命名>', k: 'key' },
+  { t: 'description: <一句話：何時該用>', k: 'key' },
+  { t: '---', k: 'delim' },
+  { t: '' },
+  { t: '## 什麼時候用', k: 'head' },
+  { t: '## 步驟（SOP）', k: 'head' },
+  { t: '## 判斷標準 / 眉角', k: 'head' },
+  { t: '## 常見錯誤（踩過的坑）', k: 'head' },
+  { t: '## 範例（input → output）', k: 'head' },
+];
+
+const geminiPrompt: CodeLine[] = [
+  { t: '我要把「<某項工作>」整理成' },
+  { t: '一份 SKILL.md 範本。' },
+  { t: '' },
+  { t: '請你問我問題，幫我補齊：' },
+  { t: '· 什麼時候用', k: 'bullet' },
+  { t: '· 步驟 SOP', k: 'bullet' },
+  { t: '· 判斷標準 / 眉角', k: 'bullet' },
+  { t: '· 常見錯誤', k: 'bullet' },
+  { t: '· 範例 input → output', k: 'bullet' },
+  { t: '' },
+  { t: '我先說做法，你邊問邊補，' },
+  { t: '最後輸出完整 markdown。' },
+];
+
+const SkillTemplate: Page = () => (
+  <div style={{ ...fill, display: 'flex', flexDirection: 'column', padding: '100px 120px', gap: 0 }}>
+    <Styles />
+    <GridBg />
+    <div className="aw-up" style={{ marginBottom: 16 }}><EyebrowTag>動手做</EyebrowTag></div>
+    <h2 className="aw-up" style={{
+      animationDelay: '0.08s',
+      fontSize: 72, fontWeight: 800, lineHeight: 1.15, letterSpacing: '-0.025em',
+      margin: '0 0 8px',
+    }}>Skill 範本</h2>
+    <div className="aw-up" style={{ animationDelay: '0.12s', fontSize: 28, color: p.muted, marginBottom: 32 }}>
+      用 Gemini 起草 → 貼進 <span style={{ fontFamily: mono, color: p.accentSoft }}>SKILL.md</span> → 開 PR 提交
+    </div>
+    <div style={{ flex: 1, display: 'flex', gap: 32, minHeight: 0 }}>
+      <CodePanel label="① 貼進 Gemini 的起草指令" lines={geminiPrompt} delay={0.18} />
+      <CodePanel label="② 產出的 SKILL.md 結構" lines={skillTemplate} delay={0.28} />
+    </div>
+  </div>
+);
+
 // ── Transitions ───────────────────────────────────────────────────────────────
 const EASE_OUT = 'cubic-bezier(0, 0, 0.2, 1)';
 const EASE_IN  = 'cubic-bezier(0.4, 0, 1, 1)';
@@ -1558,12 +1982,20 @@ export default [
   Step2,
   Step3,
   Step4,
+  WorkflowReality,
   MyWorkflows,
   CaseStudyChapter,
   CaseStudyFourSteps,
   CaseStudyFlow,
+  SkillIntro,
+  SkillStep1,
+  SkillStep23,
+  SkillStep4A,
+  SkillStep4B,
   FutureValue,
   MagicQuote,
   Closing,
   CallToAction,
+  PublishOrder,
+  SkillTemplate,
 ] satisfies Page[];
