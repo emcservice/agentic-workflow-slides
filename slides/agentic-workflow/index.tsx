@@ -35,6 +35,7 @@ export const notes: (string | undefined)[] = [
   undefined,
   undefined,
   undefined,
+  undefined,
   "「無法想像的事物，就無法實現」—— 你的想像力，才是真正的天花板。",
 ];
 
@@ -182,8 +183,7 @@ const BulletRow = ({ n, body, delay = 0 }: { n: number; body: string; delay?: nu
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       fontSize: 22, fontWeight: 700, color: p.accentSoft,
     }}>{n}</div>
-    <div style={{ fontSize: 34, lineHeight: 1.6, color: p.textSoft }}>
-      {/* @slide-comment id="c-fafbbdf4" ts="2026-06-26T02:41:42.042Z" text="eyJub3RlIjoi6YCZ5YCL6IiJ5L6L5Yiq6ZmkIn0" */}{body}</div>
+    <div style={{ fontSize: 34, lineHeight: 1.6, color: p.textSoft }}>{body}</div>
   </div>
 );
 
@@ -683,13 +683,13 @@ const HumanSOP: Page = () => (
       <Steps>
         <Step><BulletRow n={1} body="就是傳統的流程文件（Word、簡報）：第一步、第二步、例外怎麼處理。" /></Step>
         <Step><BulletRow n={2} body="人看得懂，是因為腦中會自動補上背景判斷。" delay={0.1} /></Step>
-        <Step><BulletRow n={3} body="例：SOP 寫「請款後送主管簽核」。人會自己判斷——200 元小金額直接跑完；超過 5,000 元先知會主管。" delay={0.2} /></Step>
+        <Step><BulletRow n={3} body="例：SOP 寫「回家要把髒衣服丟洗衣機」。人會自己判斷——身淺色要分開，要放幾匙洗衣精。" delay={0.2} /></Step>
       </Steps>
     </div>
     <Steps>
       <Step>
         <div style={{ marginTop: 32 }}>
-          <BottomNote>對 AI 來說這只是非結構化文字——你沒講明，它不會知道 200 跟 5,000 的差別。</BottomNote>
+          <BottomNote>對 AI 來說這只是非結構化文字——你沒講明，它不會知道差別。</BottomNote>
         </div>
       </Step>
     </Steps>
@@ -2012,6 +2012,7 @@ export default [
   SkillPage,
   AgenticWorkflowPage,
   ComparisonTable,
+  WorkflowReality,
   Part2Chapter,
   Step1,
   Step2,
